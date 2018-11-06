@@ -1,0 +1,14 @@
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+/iweb-war/nbproject/private/
+/iweb-ejb/nbproject/private/
+*.properties
+*.xml
+*.properties
+*.MF
+/iweb-war/nbproject/private/
+/iweb-ejb/nbproject/private/
