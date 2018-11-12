@@ -9,7 +9,9 @@ import ejb.CampañaFacade;
 import ejb.ModuloFacade;
 import entity.Campaña;
 import entity.Modulo;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.jws.WebService;
 import javax.ejb.Stateless;
@@ -103,5 +105,47 @@ public class ServiciosIweb {
     public void borrarCampaña(@WebParam(name = "id") long id) {
         Campaña m = campañaFacade.find(id);
         campañaFacade.remove(m);
+    }
+    
+    //Búsqueda Módulos
+    @WebMethod(operationName ="buscarModulos")
+    public List<Modulo> buscarModulos(){        
+        return moduloFacade.findAll();
+    }
+    
+    //Campañas de módulos
+    @WebMethod(operationName = "buscarCampañasModulo")
+    public List<Campaña> buscarCampañasModulo(@WebParam(name = "id") long id){
+        Modulo m = moduloFacade.find(id);
+        
+        return m.getCampañaList();
+    }
+    
+    //Modulo por nombre
+    @WebMethod(operationName = "buscarModulosNombre")
+    public List<Modulo> buscarModuloNombre(@WebParam(name = "nombre") String nombre){
+        List<Modulo> lista = new ArrayList<>();
+        
+        moduloFacade.findAll().stream().filter((m) -> (m.getNombre().equals(nombre))).forEachOrdered((m) -> {
+            lista.add(m);
+        });
+        
+        
+        return lista;
+    }
+    
+    //Campañas de módulo por fecha
+    //Campañas de módulos
+    @WebMethod(operationName = "buscarCampañasModuloFecha")
+    public List<Campaña> buscarCampañasModuloFecha(@WebParam(name = "id") long id, @WebParam(name = "fecha") Date fecha){
+        Modulo m = moduloFacade.find(id);
+        List<Campaña> lista = new ArrayList<>();
+        
+        for(Campaña c : m.getCampañaList()){
+            if(c.getFechaInicio().before(fecha) && c.getFechaFin().after(fecha))
+                lista.add(c);
+        }
+        
+        return lista;
     }
 }
