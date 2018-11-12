@@ -23,6 +23,7 @@ public class CampañaFacade extends AbstractFacade<Campaña> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+        
     }
 
     public CampañaFacade() {
