@@ -51,7 +51,7 @@ public class InicioBean {
     }
     
     public String entrar(){
-        return "";
+        return "modulos";
     }
     
     public void procesar(){
@@ -81,10 +81,19 @@ public class InicioBean {
         String kappa = lista.get(20);
         crearModulo(nombre, Double.parseDouble(alfa), Double.parseDouble(beta), Double.parseDouble(gamma), Double.parseDouble(kappa));
     }
-
+        
     private void crearModulo(java.lang.String nombre, double alfa, double beta, double gamma, double kappa) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
         services.ServiciosIweb port = service.getServiciosIwebPort();
         port.crearModulo(nombre, alfa, beta, gamma, kappa);
+    }
+
+    public int countModulo() {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        return port.countModulo();
     }
 
 }
