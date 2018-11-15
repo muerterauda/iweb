@@ -17,15 +17,15 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.Part;
 import javax.xml.ws.WebServiceRef;
-import service.ServiciosIweb_Service;
+import services.ServiciosIweb_Service;
 
 /**
  *
  * @author Sergi
  */
-@Named(value = "pruebaBean")
+@Named(value = "inicioBean")
 @RequestScoped
-public class PruebaBean {
+public class InicioBean {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ServiciosIweb/ServiciosIweb.wsdl")
     private ServiciosIweb_Service service;
@@ -34,7 +34,7 @@ public class PruebaBean {
     /**
      * Creates a new instance of PruebaBean
      */
-    public PruebaBean() {
+    public InicioBean() {
     }
 
     @PostConstruct
@@ -50,20 +50,15 @@ public class PruebaBean {
         this.archivo = archivo;
     }
     
-   
-    
-    public int countModulo() {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        service.ServiciosIweb port = service.getServiciosIwebPort();
-        return port.countModulo();
+    public String entrar(){
+        return "";
     }
     
     public void procesar(){
         try {
             leerModulo(archivo.getInputStream());
         } catch (IOException ex) {
-            Logger.getLogger(PruebaBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InicioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -88,17 +83,8 @@ public class PruebaBean {
     }
 
     private void crearModulo(java.lang.String nombre, double alfa, double beta, double gamma, double kappa) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        service.ServiciosIweb port = service.getServiciosIwebPort();
+        services.ServiciosIweb port = service.getServiciosIwebPort();
         port.crearModulo(nombre, alfa, beta, gamma, kappa);
-    }
-
-    public int countCampaña() {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        service.ServiciosIweb port = service.getServiciosIwebPort();
-        return port.countCampaña();
     }
 
 }
