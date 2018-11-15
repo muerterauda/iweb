@@ -27,6 +27,7 @@ public class ModuloCampaniaBean {
     
     private List<Modulo> modulos;
     private List<Campaña> campaniasModulo;
+    private Modulo modulo;
     
     private boolean campVisible;
     private boolean selected;
@@ -37,14 +38,20 @@ public class ModuloCampaniaBean {
     public ModuloCampaniaBean() {
     }
     
-    /*
+    
     @PostConstruct
     public void init (){
         modulos = getModulosService();
         campVisible = false;
         selected = false;
     }
-    */
+    public Modulo getModulo() {
+        return modulo;
+    }
+
+    public void setModulo(Modulo modulo) {
+        this.modulo = modulo;
+    }
     public List<Modulo> getModulos() {
         return modulos;
     }

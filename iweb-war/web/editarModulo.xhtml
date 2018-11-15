@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"    
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Editar M&oacute;dulo</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet library = "css" name="modulo.css"/>
+        <h1>Editar M&oacute;dulo</h1>
+        <h:form>
+            <label>Nombre:</label><br/> 
+            <h:inputText id="nombreModulo" maxlength="50" size="60" value="#{editar.nombre_modulo}">
+                <f:ajax listener="#{editar.nombreVacio()}" execute="nombreModulo" render="errorModuloVacio" event="keyup"/>
+            </h:inputText>
+            <i><h:outputLabel id="errorModuloVacio" value="#{editar.nombreVacio()}"/></i>
+            <br/><br/>
+            <label>&Alpha;:</label><br/> 
+            <h:inputText id="alphaValor" maxlength="50" size="55" value="#{editar.alpha}">
+                <f:ajax listener="#{editar.alphaVacio()}" execute="alphaValor" render="errorAlpha" event="keyup"/>
+            </h:inputText>
+            <i><h:outputLabel id="errorAlpha" value="#{editar.alpha_error}"/></i>
+            <br/><br/>
+            <label>&Beta;:</label><br/> 
+            <h:inputText id="betaValor" maxlength="50" size="55" value="#{editar.beta}">
+                <f:ajax listener="#{editar.betaVacio()}" execute="betaValor" render="errorBeta" event="keyup"/>
+            </h:inputText>
+            <i><h:outputLabel id="errorBeta" value="#{editar.beta_error}"/></i>
+            <br/><br/>
+            <label>&Gamma;:</label><br/> 
+            <h:inputText id="gammaValor" maxlength="50" size="55" value="#{editar.gamma}">
+                <f:ajax listener="#{editar.gammaVacio()}" execute="gammaValor" render="errorGamma" event="keyup"/>
+            </h:inputText>
+            <i><h:outputLabel id="errorGamma" value="#{editar.gamma_error}"/></i>
+            <br/><br/>
+            <label>&Kappa;:</label><br/> 
+            <h:inputText id="kappaValor" maxlength="50" size="55" value="#{editar.kappa}">
+                <f:ajax listener="#{editar.kappaVacio()}" execute="kappaValor" render="errorKappa" event="keyup"/>
+            </h:inputText>
+            <i><h:outputLabel id="errorKappa" value="#{editar.kappa_error}"/></i>
+            <br/><br/>
+            <h:panelGroup layout="block">
+                <h:commandButton action="#{editar.editarModulo()}" value="Editar Módulo"/>
+                <h:commandButton action="modulos" value="Cancelar"/>
+            </h:panelGroup>
+        </h:form>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    </h:body>
+</html>
+
