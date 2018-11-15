@@ -5,7 +5,6 @@
  */
 package bean;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
@@ -93,6 +92,13 @@ public class PruebaBean {
         // If the calling of port operations may lead to race condition some synchronization is required.
         service.ServiciosIweb port = service.getServiciosIwebPort();
         port.crearModulo(nombre, alfa, beta, gamma, kappa);
+    }
+
+    public int countCampaña() {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        service.ServiciosIweb port = service.getServiciosIwebPort();
+        return port.countCampaña();
     }
 
 }

@@ -148,4 +148,10 @@ public class ServiciosIweb {
         
         return lista;
     }
+   
+    
+    @WebMethod(operationName ="getModulos")
+    public List<Modulo> getModulos(){
+        return moduloFacade.findAll();
+    }
 }
