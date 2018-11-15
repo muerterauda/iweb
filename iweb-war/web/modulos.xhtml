@@ -57,7 +57,7 @@
                     #{modulo.kappa}
                 </h:column>
             </h:dataTable>
-        
+
         </h:form>
         <h:dataTable id="tablaCamps" border="1" value="#{moduloCampaniaBean.campaniasModulo}" var="campania">
             <h:column>
@@ -79,6 +79,11 @@
                 #{campania.fechaFin}
             </h:column>
         </h:dataTable>
+        <h:form>
+            <h:panelGroup layout="block">
+                <h:commandButton action="#{moduloCampaniaBean.volver()}" value="Volver"/>
+            </h:panelGroup>
+        </h:form>
     </h:body>
 </html>
 

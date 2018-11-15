@@ -6,9 +6,7 @@
 package bean;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -30,6 +28,7 @@ public class ModuloCampaniaBean implements java.io.Serializable {
 
     private List<Modulo> modulos;
     private List<Campaña> campaniasModulo;
+    private List<Modulo> modulosSeleccionados;
     private Modulo modulo;
 
     /**
@@ -37,13 +36,15 @@ public class ModuloCampaniaBean implements java.io.Serializable {
      */
     public ModuloCampaniaBean() {
     }
-    
-    
+
     @PostConstruct
     public void init() {
+        modulo = new Modulo();
         modulos = getModulosService();
         campaniasModulo = new ArrayList<>();
+        modulosSeleccionados = new ArrayList<>();
     }
+
     public Modulo getModulo() {
         return modulo;
     }
@@ -51,6 +52,7 @@ public class ModuloCampaniaBean implements java.io.Serializable {
     public void setModulo(Modulo modulo) {
         this.modulo = modulo;
     }
+
     public List<Modulo> getModulos() {
         return modulos;
     }
@@ -68,18 +70,35 @@ public class ModuloCampaniaBean implements java.io.Serializable {
     }
 
     public String editarModulo(long id) {
+        for (Modulo m : modulos) {
+            if (m.getId().equals(id)) {
+                modulo = m;
+                break;
+            }
+        }
         return "editarModulo";
     }
 
     public void computeCampanias(long id) {
-        List<Campaña> aux = buscarCampañasModulo(id);
-        aux.forEach((x) -> {
-            if (!campaniasModulo.contains(x)) {
-                campaniasModulo.add(x);
-            }else{
-                campaniasModulo.remove(x);
+        for (Modulo m : modulos) {
+            if (m.getId().equals(id)) {
+                if (modulosSeleccionados.contains(m)) {
+                    modulosSeleccionados.remove(m);
+                } else {
+                    modulosSeleccionados.add(m);
+                }
             }
-        });
+        }
+        campaniasModulo.clear();
+        for (Modulo m : modulosSeleccionados) {
+            for (Campaña c : buscarCampañasModulo(m.getId())) {
+                campaniasModulo.add(c);
+            }
+        }
+    }
+    
+    public String volver(){
+        return "index";
     }
 
     /* -------------------------  Servicios ---------------------------------------------------------------------------------*/

@@ -2,7 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"    
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Editar M&oacute;dulo</title>
@@ -14,31 +13,31 @@
         <h:form>
             <label>Nombre:</label><br/> 
             <h:inputText id="nombreModulo" maxlength="50" size="60" value="#{editar.nombre_modulo}">
-                <f:ajax listener="#{editar.nombreVacio()}" execute="nombreModulo" render="errorModuloVacio" event="keyup"/>
+                <f:ajax listener="#{editar.nombreVacio()}" execute="nombreModulo" render="errorModuloVacio" event="change"/>
             </h:inputText>
             <i><h:outputLabel id="errorModuloVacio" value="#{editar.nombreVacio()}"/></i>
             <br/><br/>
             <label>&Alpha;:</label><br/> 
             <h:inputText id="alphaValor" maxlength="50" size="55" value="#{editar.alpha}">
-                <f:ajax listener="#{editar.alphaVacio()}" execute="alphaValor" render="errorAlpha" event="keyup"/>
+                <f:ajax listener="#{editar.alphaVacio()}" execute="alphaValor" render="errorAlpha" event="change"/>
             </h:inputText>
             <i><h:outputLabel id="errorAlpha" value="#{editar.alpha_error}"/></i>
             <br/><br/>
             <label>&Beta;:</label><br/> 
             <h:inputText id="betaValor" maxlength="50" size="55" value="#{editar.beta}">
-                <f:ajax listener="#{editar.betaVacio()}" execute="betaValor" render="errorBeta" event="keyup"/>
+                <f:ajax listener="#{editar.betaVacio()}" execute="betaValor" render="errorBeta" event="change"/>
             </h:inputText>
             <i><h:outputLabel id="errorBeta" value="#{editar.beta_error}"/></i>
             <br/><br/>
             <label>&Gamma;:</label><br/> 
             <h:inputText id="gammaValor" maxlength="50" size="55" value="#{editar.gamma}">
-                <f:ajax listener="#{editar.gammaVacio()}" execute="gammaValor" render="errorGamma" event="keyup"/>
+                <f:ajax listener="#{editar.gammaVacio()}" execute="gammaValor" render="errorGamma" event="change"/>
             </h:inputText>
             <i><h:outputLabel id="errorGamma" value="#{editar.gamma_error}"/></i>
             <br/><br/>
             <label>&Kappa;:</label><br/> 
             <h:inputText id="kappaValor" maxlength="50" size="55" value="#{editar.kappa}">
-                <f:ajax listener="#{editar.kappaVacio()}" execute="kappaValor" render="errorKappa" event="keyup"/>
+                <f:ajax listener="#{editar.kappaVacio()}" execute="kappaValor" render="errorKappa" event="change"/>
             </h:inputText>
             <i><h:outputLabel id="errorKappa" value="#{editar.kappa_error}"/></i>
             <br/><br/>
