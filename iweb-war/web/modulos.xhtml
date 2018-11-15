@@ -11,20 +11,22 @@
     </h:head>
     <h:body>
         <h:form>
-            <h:dataTable id="datosTable" border="1" value="#{moduloCampaniaBean.modulos}" var="modulo">
-               <h:column>
+            <h:dataTable border="1" value="#{moduloCampaniaBean.modulos}" var="modulo">
+                <h:column>
                     <f:facet name="header">
                         Ver
                     </f:facet>
-                   <h:selectBooleanCheckbox value="Ver módulo"value="#{moduloCampaniaBean.selected}"/>
+                    <h:selectBooleanCheckbox>
+                        <f:ajax event="click" render="tablaCamps" listener="#{moduloCampaniaBean.computeCampanias(modulo.id)}"></f:ajax>
+                    </h:selectBooleanCheckbox>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">
-                        Editar
-                    </f:facet>
-                    <h:commandButton value="Editar módulo" action="#{moduloCampaniaBean.editarModulo(modulo.id)}"/>
-                </h:column>
-                <h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Editar
+                        </f:facet>
+                        <h:commandButton value="Editar" action="#{moduloCampaniaBean.editarModulo(modulo.id)}" />
+                    </h:column>
                     <f:facet name="header">
                         Módulo
                     </f:facet>
@@ -56,26 +58,26 @@
                 </h:column>
             </h:dataTable>
         </h:form>
-        <h:dataTable id="datosTable" border="1" value="#{moduloCampaniaBean.campaniasModulo}" var="campania" rendered="#{moduloCampaniaBean.campVisible}">
-                <h:column>
-                    <f:facet name="header">
-                        Campaña
-                    </f:facet>
-                    #{campania.nombre}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        Fecha Inicio
-                    </f:facet>
-                    #{campania.fechaInicio}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        Fecha Fin
-                    </f:facet>
-                    #{campania.fechaFin}
-                </h:column>
-            </h:dataTable>
+        <h:dataTable id="tablaCamps" border="1" value="#{moduloCampaniaBean.campaniasModulo}" var="campania">
+            <h:column>
+                <f:facet name="header">
+                    Campaña
+                </f:facet>
+                #{campania.nombre}
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    Fecha Inicio
+                </f:facet>
+                #{campania.fechaInicio}
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    Fecha Fin
+                </f:facet>
+                #{campania.fechaFin}
+            </h:column>
+        </h:dataTable>
     </h:body>
 </html>
 

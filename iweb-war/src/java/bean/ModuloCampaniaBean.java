@@ -5,10 +5,13 @@
  */
 package bean;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.xml.ws.WebServiceRef;
 import service.Campaña;
 import service.Modulo;
@@ -19,29 +22,26 @@ import service.ServiciosIweb_Service;
  * @author Sergi
  */
 @Named(value = "moduloCampaniaBean")
-@RequestScoped 
-public class ModuloCampaniaBean {
+@SessionScoped
+public class ModuloCampaniaBean implements java.io.Serializable {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ServiciosIweb/ServiciosIweb.wsdl")
     private ServiciosIweb_Service service;
-    
+
     private List<Modulo> modulos;
     private List<Campaña> campaniasModulo;
-    
-    private boolean campVisible;
-    private boolean selected;
+
 
     /**
      * Creates a new instance of ModuloCampaniaBean
      */
     public ModuloCampaniaBean() {
     }
-    
+
     @PostConstruct
-    public void init (){
+    public void init() {
         modulos = getModulosService();
-        campVisible = false;
-        selected = false;
+        campaniasModulo = new ArrayList<>();
     }
 
     public List<Modulo> getModulos() {
@@ -52,14 +52,6 @@ public class ModuloCampaniaBean {
         this.modulos = modulos;
     }
 
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
     public List<Campaña> getCampaniasModulo() {
         return campaniasModulo;
     }
@@ -68,27 +60,22 @@ public class ModuloCampaniaBean {
         this.campaniasModulo = campaniasModulo;
     }
 
-    public boolean isCampVisible() {
-        return campVisible;
-    }
-
-    public void setCampVisible(boolean campVisible) {
-        this.campVisible = campVisible;
-    }
-
-    public String editarModulo(long id){
+    public String editarModulo(long id) {
         return "editarModulo";
     }
-    
-    public void computeCampanias(long id){
-        campaniasModulo = buscarCampañasModulo(id);
-        if(campaniasModulo!=null){
-            campVisible = true;
-        }
-    }
-    
-    /* -------------------------  Servicios ---------------------------------------------------------------------------------*/
 
+    public void computeCampanias(long id) {
+        List<Campaña> aux = buscarCampañasModulo(id);
+        aux.forEach((x) -> {
+            if (!campaniasModulo.contains(x)) {
+                campaniasModulo.add(x);
+            }else{
+                campaniasModulo.remove(x);
+            }
+        });
+    }
+
+    /* -------------------------  Servicios ---------------------------------------------------------------------------------*/
     private java.util.List<service.Modulo> getModulosService() {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
@@ -102,7 +89,5 @@ public class ModuloCampaniaBean {
         service.ServiciosIweb port = service.getServiciosIwebPort();
         return port.buscarCampañasModulo(id);
     }
-    
-    
-    
+
 }
