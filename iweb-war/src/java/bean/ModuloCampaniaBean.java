@@ -30,20 +30,27 @@ public class ModuloCampaniaBean implements java.io.Serializable {
 
     private List<Modulo> modulos;
     private List<Campaña> campaniasModulo;
-
+    private Modulo modulo;
 
     /**
      * Creates a new instance of ModuloCampaniaBean
      */
     public ModuloCampaniaBean() {
     }
-
+    
+    
     @PostConstruct
     public void init() {
         modulos = getModulosService();
         campaniasModulo = new ArrayList<>();
     }
+    public Modulo getModulo() {
+        return modulo;
+    }
 
+    public void setModulo(Modulo modulo) {
+        this.modulo = modulo;
+    }
     public List<Modulo> getModulos() {
         return modulos;
     }
