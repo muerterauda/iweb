@@ -1,12 +1,12 @@
 package bean;
 
-import service.Modulo;
+import services.Modulo;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.ws.WebServiceRef;
-import service.ServiciosIweb_Service;
+import services.ServiciosIweb_Service;
 
 @Named(value = "editar")
 @RequestScoped
@@ -38,7 +38,12 @@ public class EditarModuloBean {
 
     public String editarModulo() {
         String action = "modulos";
-        editarModulo_1(current_modulo.getId(), nombre_modulo, Double.parseDouble(alpha), Double.parseDouble(beta), Double.parseDouble(gamma), Double.parseDouble(kappa));
+        if(kappa!=null &&gamma!=null &&nombre_modulo_vacio!=null &&alpha_error!=null &&beta_error!=null){
+            editarModulo_1(current_modulo.getId(), nombre_modulo, Double.parseDouble(alpha), Double.parseDouble(beta), Double.parseDouble(gamma), Double.parseDouble(kappa));
+        }else{
+            action="";
+        }
+        sessionBean.init();
         return action;
     }
 
@@ -51,8 +56,6 @@ public class EditarModuloBean {
         beta=Double.toString(current_modulo.getBeta());
         gamma=Double.toString(current_modulo.getGamma());
         kappa=Double.toString(current_modulo.getKappa());
-        nombre_modulo_vacio = alpha_error = beta_error
-                = gamma_error = kappa_error = "";
     }
 
     public void nombreVacio(){
@@ -118,7 +121,7 @@ public class EditarModuloBean {
     private void editarModulo_1(long id, java.lang.String nombre, double alfa, double beta, double gamma, double kappa) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
-        service.ServiciosIweb port = service.getServiciosIwebPort();
+        services.ServiciosIweb port = service.getServiciosIwebPort();
         port.editarModulo(id, nombre, alfa, beta, gamma, kappa);
     }
 

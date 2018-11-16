@@ -7,10 +7,6 @@ and open the template in the editor.
     Created on : 24-may-2018, 11:20:50
     Author     : paula
 */
-.outputbox{
-    width: 1110px;
-    height: 100px;
-}
 table, th, td {
     border: 1px solid black;
 }
@@ -19,20 +15,39 @@ table{
 }
 th, td {
     text-align: left;
-    padding: 4px;
+    padding: 3px;
 }
 tr:nth-child(even){
     background-color: lightgrey;
 }
 .botones{
-    padding-top: 20px;
+    content-align: center;
+    text-align: center;
 }
 .div_tabla_movimientos {
     padding-top: 10px;             
-    height: 400px;               
+    height: 100px;               
     overflow-y:scroll;
 }
-
 .error {
     color: red;
+}
+.boton{
+    margin: 10px;
+}
+.index{
+    margin: auto;
+    width: 30%;
+    position: relative;
+    text-align: center;
+    padding: 70px;
+}
+h1{
+    font-size: 5rem;
+}
+.row{
+    padding:10px;
+}
+form{
+    padding:20px;
 }

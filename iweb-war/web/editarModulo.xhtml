@@ -7,43 +7,43 @@
         <title>Editar M&oacute;dulo</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
     </h:head>
-    <h:body>
+    <h:body class="container-fluid">
         <h:outputStylesheet library = "css" name="modulo.css"/>
         <h1>Editar M&oacute;dulo</h1>
         <h:form>
-            <label>Nombre:</label><br/> 
+            <label><b>Nombre:</b></label><br/> 
             <h:inputText id="nombreModulo" maxlength="50" size="60" value="#{editar.nombre_modulo}">
                 <f:ajax listener="#{editar.nombreVacio()}" execute="nombreModulo" render="errorModuloVacio" event="change"/>
             </h:inputText>
-            <i><h:outputLabel id="errorModuloVacio" value="#{editar.nombreVacio()}"/></i>
+            <i><h:outputLabel class="error" id="errorModuloVacio" value="#{editar.nombreVacio()}"/></i>
             <br/><br/>
-            <label>&Alpha;:</label><br/> 
+            <label><b>&Alpha;:</b></label><br/> 
             <h:inputText id="alphaValor" maxlength="50" size="55" value="#{editar.alpha}">
                 <f:ajax listener="#{editar.alphaVacio()}" execute="alphaValor" render="errorAlpha" event="change"/>
             </h:inputText>
-            <i><h:outputLabel id="errorAlpha" value="#{editar.alpha_error}"/></i>
+            <i><h:outputLabel class="error" id="errorAlpha" value="#{editar.alpha_error}"/></i>
             <br/><br/>
-            <label>&Beta;:</label><br/> 
+            <label><b>&Beta;:</b></label><br/> 
             <h:inputText id="betaValor" maxlength="50" size="55" value="#{editar.beta}">
                 <f:ajax listener="#{editar.betaVacio()}" execute="betaValor" render="errorBeta" event="change"/>
             </h:inputText>
-            <i><h:outputLabel id="errorBeta" value="#{editar.beta_error}"/></i>
+            <i><h:outputLabel class="error" id="errorBeta" value="#{editar.beta_error}"/></i>
             <br/><br/>
-            <label>&Gamma;:</label><br/> 
+            <label><b>&Gamma;:</b></label><br/> 
             <h:inputText id="gammaValor" maxlength="50" size="55" value="#{editar.gamma}">
                 <f:ajax listener="#{editar.gammaVacio()}" execute="gammaValor" render="errorGamma" event="change"/>
             </h:inputText>
-            <i><h:outputLabel id="errorGamma" value="#{editar.gamma_error}"/></i>
+            <i><h:outputLabel class="error" id="errorGamma" value="#{editar.gamma_error}"/></i>
             <br/><br/>
-            <label>&Kappa;:</label><br/> 
+            <label><b>&Kappa;:</b></label><br/> 
             <h:inputText id="kappaValor" maxlength="50" size="55" value="#{editar.kappa}">
                 <f:ajax listener="#{editar.kappaVacio()}" execute="kappaValor" render="errorKappa" event="change"/>
             </h:inputText>
-            <i><h:outputLabel id="errorKappa" value="#{editar.kappa_error}"/></i>
+            <i><h:outputLabel class="error" id="errorKappa" value="#{editar.kappa_error}"/></i>
             <br/><br/>
-            <h:panelGroup layout="block">
-                <h:commandButton action="#{editar.editarModulo()}" value="Editar Módulo"/>
-                <h:commandButton action="modulos" value="Cancelar"/>
+            <h:panelGroup layout="block" id="botones">
+                <h:commandButton class="btn btn-secondary boton" action="#{editar.editarModulo()}" value="Editar Módulo"/>
+                <h:commandButton class="btn btn-secondary boton" action="modulos" value="Cancelar"/>
             </h:panelGroup>
         </h:form>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

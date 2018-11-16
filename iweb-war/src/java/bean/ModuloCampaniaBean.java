@@ -11,9 +11,9 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.xml.ws.WebServiceRef;
-import service.Campaña;
-import service.Modulo;
-import service.ServiciosIweb_Service;
+import services.Campaña;
+import services.Modulo;
+import services.ServiciosIweb_Service;
 
 /**
  *
@@ -44,6 +44,7 @@ public class ModuloCampaniaBean implements java.io.Serializable {
         campaniasModulo = new ArrayList<>();
         modulosSeleccionados = new ArrayList<>();
     }
+    
 
     public Modulo getModulo() {
         return modulo;
@@ -102,17 +103,17 @@ public class ModuloCampaniaBean implements java.io.Serializable {
     }
 
     /* -------------------------  Servicios ---------------------------------------------------------------------------------*/
-    private java.util.List<service.Modulo> getModulosService() {
+    private java.util.List<services.Modulo> getModulosService() {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
-        service.ServiciosIweb port = service.getServiciosIwebPort();
+        services.ServiciosIweb port = service.getServiciosIwebPort();
         return port.getModulos();
     }
 
-    private java.util.List<service.Campaña> buscarCampañasModulo(long id) {
+    private java.util.List<services.Campaña> buscarCampañasModulo(long id) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
-        service.ServiciosIweb port = service.getServiciosIwebPort();
+        services.ServiciosIweb port = service.getServiciosIwebPort();
         return port.buscarCampañasModulo(id);
     }
 

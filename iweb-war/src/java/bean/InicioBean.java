@@ -17,7 +17,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.Part;
 import javax.xml.ws.WebServiceRef;
-import service.ServiciosIweb_Service;
+import services.ServiciosIweb_Service;
 
 /**
  *
@@ -85,14 +85,14 @@ public class InicioBean {
     private void crearModulo(java.lang.String nombre, double alfa, double beta, double gamma, double kappa) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
-        service.ServiciosIweb port = service.getServiciosIwebPort();
+        services.ServiciosIweb port = service.getServiciosIwebPort();
         port.crearModulo(nombre, alfa, beta, gamma, kappa);
     }
 
     public int countModulo() {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
-        service.ServiciosIweb port = service.getServiciosIwebPort();
+        services.ServiciosIweb port = service.getServiciosIwebPort();
         return port.countModulo();
     }
 
