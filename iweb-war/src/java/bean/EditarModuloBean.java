@@ -2,15 +2,16 @@ package bean;
 
 import services.Modulo;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.ws.WebServiceRef;
 import services.ServiciosIweb_Service;
 
 @Named(value = "editar")
-@RequestScoped
-public class EditarModuloBean {
+@SessionScoped
+public class EditarModuloBean  implements java.io.Serializable {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ServiciosIweb/ServiciosIweb.wsdl")
     private ServiciosIweb_Service service;
@@ -38,15 +39,22 @@ public class EditarModuloBean {
 
     public String editarModulo() {
         String action = "modulos";
-        if(kappa!=null &&gamma!=null &&nombre_modulo_vacio!=null &&alpha_error!=null &&beta_error!=null){
-            editarModulo_1(current_modulo.getId(), nombre_modulo, Double.parseDouble(alpha), Double.parseDouble(beta), Double.parseDouble(gamma), Double.parseDouble(kappa));
+        if(nullOrEmpty(alpha_error)&&nullOrEmpty(beta_error)&&nullOrEmpty(gamma_error)&&nullOrEmpty(kappa_error)&&nullOrEmpty(nombre_modulo_vacio)){
+           editarModulo_1(current_modulo.getId(), nombre_modulo, Double.parseDouble(alpha), Double.parseDouble(beta), Double.parseDouble(gamma), Double.parseDouble(kappa));
+           sessionBean.init();
         }else{
             action="";
         }
-        sessionBean.init();
         return action;
     }
-
+    public boolean nullOrEmpty(String c){
+        return c==null||c.isEmpty();
+    }
+    public String volver(){
+        sessionBean.init();
+        nombre_modulo_vacio=alpha_error=beta_error=gamma_error=kappa_error="";
+        return  "modulos";
+    }
     @PostConstruct
     public void init() {
         //TODO valores iniciales

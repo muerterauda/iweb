@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.xml.ws.WebServiceRef;
 import services.Campaña;
 import services.Modulo;
@@ -23,6 +24,9 @@ import services.ServiciosIweb_Service;
 @SessionScoped
 public class ModuloCampaniaBean implements java.io.Serializable {
 
+    @Inject
+    private EditarModuloBean sessionBean;
+    
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ServiciosIweb/ServiciosIweb.wsdl")
     private ServiciosIweb_Service service;
 
@@ -77,6 +81,7 @@ public class ModuloCampaniaBean implements java.io.Serializable {
                 break;
             }
         }
+        sessionBean.init();
         return "editarModulo";
     }
 
@@ -99,6 +104,7 @@ public class ModuloCampaniaBean implements java.io.Serializable {
     }
     
     public String volver(){
+        init();
         return "index";
     }
 
