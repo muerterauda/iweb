@@ -40,12 +40,6 @@
 
 <xs:element name="modulo" type="tns:modulo"/>
 
-<xs:complexType name="borrarModulo">
-<xs:sequence>
-<xs:element name="id" type="xs:long"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="buscarCampañasModulo">
 <xs:sequence>
 <xs:element name="id" type="xs:long"/>
@@ -76,6 +70,12 @@
 <xs:element name="id" type="xs:long" minOccurs="0"/>
 <xs:element name="kappa" type="xs:double"/>
 <xs:element name="nombre" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="borrarModulo">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -135,13 +135,16 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="countCampaña">
-<xs:sequence/>
+<xs:complexType name="buscarCampañasModuloFecha">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="fecha" type="xs:dateTime" minOccurs="0"/>
+</xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="countCampañaResponse">
+<xs:complexType name="buscarCampañasModuloFechaResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:int"/>
+<xs:element name="return" type="tns:campaña" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -155,16 +158,13 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="buscarCampañasModuloFecha">
-<xs:sequence>
-<xs:element name="id" type="xs:long"/>
-<xs:element name="fecha" type="xs:dateTime" minOccurs="0"/>
-</xs:sequence>
+<xs:complexType name="countCampaña">
+<xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="buscarCampañasModuloFechaResponse">
+<xs:complexType name="countCampañaResponse">
 <xs:sequence>
-<xs:element name="return" type="tns:campaña" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 

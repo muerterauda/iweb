@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Test</title>
+    </h:head>
+    <h:body>
+        <h1>PRUEBAS PVSHOWER</h1>
+        <h:form>
+            <h:outputText id="textocuentamodulo" value="#{testBean.cuentaModulo}"/>
+            ->
+            <h:commandButton value="Contar Modulos" action="#{testBean.setCountModulo()}">
+                <f:ajax render="textocuentamodulo"/>
+            </h:commandButton><br/>
+            
+            <h:outputText id="textocuentacampaña" value="#{testBean.cuentaCamapaña}"/>
+            ->
+            <h:commandButton value="Contar Campañas" action="#{testBean.setCuentaCampaña()}">
+                <f:ajax render="textocuentacampaña"/>
+            </h:commandButton><br/>
+            
+            <h2>Pruebas M&oacute;dulo</h2>
+            
+            ID: 
+            <h:inputText value="#{testBean.idmodulo}"/>
+            Nombre: 
+            <h:inputText value="#{testBean.nombreModulo}"/>
+            <h:commandButton value="Buscar por nombre" action="#{testBean.doBuscarModulosNombre()}"/><br/>
+            
+            <h:commandButton value="Listar todos los módulos" action="#{testBean.setModulos()}"/><br/>
+            
+            
+            <h:dataTable id="modulosalldatatable" value="#{testBean.modulos}" var="modulo">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{modulo.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Nombre</f:facet>
+                    #{modulo.nombre}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Alfa</f:facet>
+                    #{modulo.alfa}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Beta</f:facet>
+                    #{modulo.beta}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Gamma</f:facet>
+                    #{modulo.gamma}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Kappa</f:facet>
+                    #{modulo.kappa}
+                </h:column>
+            </h:dataTable>
+            
+            <h3>Operaciones M&oacute;dulo</h3>
+            Nombre: <h:inputText value="#{testBean.nombre}"/>
+            Alfa: <h:inputText value="#{testBean.alfa}"/>
+            Beta: <h:inputText value="#{testBean.beta}"/>
+            Gamma: <h:inputText value="#{testBean.gamma}"/>
+            Kappa: <h:inputText value="#{testBean.kappa}"/><br/>
+            <h:commandButton value="Crear Modulo" action="#{testBean.doCrearModulo()}"/>
+            <h:commandButton value="Editar Modulo" action="#{testBean.doEditarModulo()}"/>
+            <h:commandButton value="Borrar Modulo" action="#{testBean.doBorrarModulo()}"/>
+            (Emplea la casilla ID)<br/>
+            
+            <h2>Pruebas Campaña</h2>
+            
+            ID:
+            <h:inputText value="#{testBean.idcampaña}"/>
+            Módulo:
+            <h:inputText value="#{testBean.idmoduloparabuscarcampañas}"/>
+            <h:commandButton value="Buscar campañas por modulo" action="#{testBean.setCampañaspormodulo()}"/><br/>
+            
+            <h:dataTable id="campañaspormodulodatatable" value="#{testBean.campañaspormodulo}" var="campormod">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{campormod.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Nombre</f:facet>
+                    #{campormod.nombre}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Modulo</f:facet>
+                    #{campormod.modulo.nombre}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Fecha de inicio</f:facet>
+                    #{campormod.fechaInicio}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Fecha de fin</f:facet>
+                    #{campormod.fechaFin}
+                </h:column>
+            </h:dataTable>
+            
+            <h3>Operaciones Campaña</h3>
+            
+            Módulo: <h:inputText value="#{testBean.modulo}"/>
+            Nombre: <h:inputText value="#{testBean.nombreCampaña}"/>
+            Fecha Inicio: <h:inputText value="#{testBean.fechaIni}">  
+                <f:convertDateTime pattern="yyyy-MM-dd"/>  
+            </h:inputText>
+            Fecha Fin: <h:inputText value="#{testBean.fechaFin}">  
+                <f:convertDateTime pattern="yyyy-MM-dd"/>  
+            </h:inputText><br/>
+            <h:commandButton value="Crear Campaña" action="#{testBean.doCrearCampaña()}"/>
+            <h:commandButton value="Editar Campaña" action="#{testBean.doEditarCampaña()}"/>
+            <h:commandButton value="Borrar Campaña" action="#{testBean.doBorrarCampaña()}"/>
+        </h:form>
+    </h:body>
+</html>
+
