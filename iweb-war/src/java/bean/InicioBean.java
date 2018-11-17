@@ -7,6 +7,9 @@ package bean;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,6 +19,8 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.Part;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceRef;
 import services.ServiciosIweb_Service;
 
@@ -73,11 +78,7 @@ public class InicioBean {
     }
     
     public void procesar(){
-        try {
-            leerArchivo(archivo.getInputStream());
-        } catch (IOException ex) {
-            Logger.getLogger(InicioBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        leerArchivo(archivo);
     }
 
     private void leerModulo(InputStream f) {
@@ -100,8 +101,10 @@ public class InicioBean {
         if(buscarModulosNombre(nombre).isEmpty()){
             crearModulo(nombre, Double.parseDouble(alfa), Double.parseDouble(beta), Double.parseDouble(gamma), Double.parseDouble(kappa));
             mensaje="Archivo importado correctamente";
+            error=null;
         }else{
             error="Modulo ya existente";
+            mensaje=null;
         }
        }
         
@@ -119,15 +122,23 @@ public class InicioBean {
         return port.buscarModulosNombre(nombre);
     }
 
-    private void leerArchivo(InputStream inputStream) {
+    private void leerArchivo(Part p) {
+        InputStream inputStream=null;
+        InputStream inputStreamC=null;
+         try {
+            inputStream=p.getInputStream();
+            inputStreamC=p.getInputStream();
+        } catch (IOException ex) {
+            Logger.getLogger(InicioBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Scanner sc = new Scanner(inputStream);
         boolean e=false;
         if(sc.hasNext()){
             String empezar=sc.next();
              if(empezar.startsWith("I-")){
-                leerModulo(inputStream);
-             }else if(sc.next().startsWith("Módulo:")){
-                leerMedida(inputStream);
+                leerModulo(inputStreamC);
+             }else if(empezar.startsWith("Módulo:")){
+                leerMedida(inputStreamC);
             }else{
                  e=true;
             }
@@ -139,13 +150,9 @@ public class InicioBean {
         
     }
 
-    private String getMes(String c){
-        
-        return c;
-    }
     private void leerMedida(InputStream inputStream) {
-         List<String> lista=new LinkedList<>();
-         int i=0;
+        List<String> lista=new LinkedList<>();
+        int i=0;
         try{
         Scanner sc = new Scanner(inputStream);
         while (sc.hasNextLine()&&i<3) {
@@ -162,7 +169,7 @@ public class InicioBean {
         }
         String moduloNombre=lista.get(0).split(": ")[1];
         String nombreCampaña=lista.get(1).split(": ")[1];
-        String fechaMedida=lista.get(2).split(": ")[2];
+        String fechaMedida=lista.get(2).split(": ")[1];
         String[] fecha=fechaMedida.split("/");
         String fechaInicio="01-"+fecha[1]+"-"+fecha[2];
         String dia="";
@@ -179,7 +186,31 @@ public class InicioBean {
                        
         }
         String fechaFin=dia+"-"+fecha[1]+"-"+fecha[2];
-        //ModuloNombre Campaña fechas 2
+        GregorianCalendar c1=new GregorianCalendar();
+        GregorianCalendar c2=new GregorianCalendar();
+        SimpleDateFormat s=new SimpleDateFormat("dd-MM-yyyy");
+        try{
+              Date dateInicio= s.parse(fechaInicio);
+              Date dateFin= s.parse(fechaFin);
+              DatatypeFactory factory=DatatypeFactory.newInstance();
+              c1.setTime(dateInicio);
+              c2.setTime(dateFin);
+              XMLGregorianCalendar inicio=factory.newXMLGregorianCalendar(c1);
+              XMLGregorianCalendar fin=factory.newXMLGregorianCalendar(c2);
+              crearCampañaNombre(moduloNombre, nombreCampaña, inicio, fin);
+              mensaje="Archivo importado correctamente";
+              error=null;
+        }catch(Exception e){
+            error="Error en la importacion del fichero";
+            mensaje=null;
+        }
+    }
+
+    private void crearCampañaNombre(java.lang.String nombreModulo, java.lang.String nombre, javax.xml.datatype.XMLGregorianCalendar fechaIni, javax.xml.datatype.XMLGregorianCalendar fechaFin) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        port.crearCampañaNombre(nombreModulo, nombre, fechaIni, fechaFin);
     }
 
 }
