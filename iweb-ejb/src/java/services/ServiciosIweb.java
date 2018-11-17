@@ -12,6 +12,7 @@ import entity.Modulo;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.EJB;
 import javax.jws.WebService;
 import javax.ejb.Stateless;
@@ -59,12 +60,19 @@ public class ServiciosIweb {
     @Oneway
     public void crearCampaña(@WebParam(name = "modulo") long modulo, @WebParam(name = "nombre") String nombre, @WebParam(name = "fechaIni") Date fechaIni, @WebParam(name = "fechaFin") Date fechaFin){
         Campaña c = new Campaña();
-        c.setModulo(moduloFacade.find(modulo));
+        Modulo m = moduloFacade.find(modulo);
+        
+        c.setModulo(m);
         c.setNombre(nombre);
         c.setFechaInicio(fechaIni);
         c.setFechaFin(fechaFin);
         
+        List<Campaña> aux = m.getCampañaList();
+        aux.add(c);
+        m.setCampañaList(aux);
+        
         campañaFacade.create(c);
+        moduloFacade.edit(m);
     }
     
     @WebMethod(operationName = "editarModulo")
@@ -84,7 +92,23 @@ public class ServiciosIweb {
     @Oneway
     public void editarCampaña(@WebParam(name = "id") long id, @WebParam(name = "modulo") long modulo, @WebParam(name = "nombre") String nombre, @WebParam(name = "fechaIni") Date fechaIni, @WebParam(name = "fechaFin") Date fechaFin){
         Campaña c = campañaFacade.find(id);
-        c.setModulo(moduloFacade.find(modulo));
+        Modulo m = moduloFacade.find(modulo);
+        Modulo n = c.getModulo();
+        
+        if(!Objects.equals(n.getId(), m.getId())){
+            List<Campaña> aux = n.getCampañaList();
+            aux.remove(c);
+            n.setCampañaList(aux);
+            
+            List<Campaña> aux1 = m.getCampañaList();
+            aux1.add(c);
+            m.setCampañaList(aux1);
+        
+            c.setModulo(m);
+            moduloFacade.edit(n);
+            moduloFacade.edit(m);
+        }
+        
         c.setNombre(nombre);
         c.setFechaInicio(fechaIni);
         c.setFechaFin(fechaFin);
@@ -136,16 +160,41 @@ public class ServiciosIweb {
     
     //Campañas de módulo por fecha
     //Campañas de módulos
+    @WebMethod(operationName = "buscarCampañasModuloFechaInicio")
+    public List<Campaña> buscarCampañasModuloFechaInicio(@WebParam(name = "id") long id, @WebParam(name = "fecha") Date fecha){
+        Modulo m = moduloFacade.find(id);
+        List<Campaña> lista = new ArrayList<>();
+        
+        for(Campaña c : m.getCampañaList()){
+            if(c.getFechaInicio().equals(fecha))
+                lista.add(c);
+        }
+        
+        return lista;
+    }
+    
     @WebMethod(operationName = "buscarCampañasModuloFecha")
     public List<Campaña> buscarCampañasModuloFecha(@WebParam(name = "id") long id, @WebParam(name = "fecha") Date fecha){
         Modulo m = moduloFacade.find(id);
         List<Campaña> lista = new ArrayList<>();
         
         for(Campaña c : m.getCampañaList()){
-            if(c.getFechaInicio().before(fecha) && c.getFechaFin().after(fecha))
+            if(fecha.after(c.getFechaInicio()) && fecha.before(c.getFechaFin()))
                 lista.add(c);
         }
         
         return lista;
+    }
+    
+    @WebMethod(operationName = "crearCampañaNombre")
+    @Oneway
+    public void crearCampañaNombre(@WebParam(name = "nombreModulo") String nombreModulo, @WebParam(name = "nombre") String nombre, @WebParam(name = "fechaIni") Date fechaIni, @WebParam(name = "fechaFin") Date fechaFin){
+        List<Modulo> lista = buscarModuloNombre(nombreModulo);
+        Modulo m;
+        
+        if(lista.isEmpty()){
+            crearModulo(nombreModulo, 0, 0, 0, 0);
+        } 
+        this.crearCampaña(buscarModuloNombre(nombreModulo).get(0).getId(), nombre, fechaIni, fechaFin);   
     }
 }
