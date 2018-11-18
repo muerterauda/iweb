@@ -34,12 +34,12 @@ public class ServiciosIweb {
     private ModuloFacade moduloFacade;
     @EJB
     private CampañaFacade campañaFacade;
-    
+
     @WebMethod(operationName = "countModulo")
     public int countModulo() {
         return moduloFacade.count();
     }
-    
+
     @WebMethod(operationName = "countCampaña")
     public int countCampaña() {
         return campañaFacade.count();
@@ -48,168 +48,196 @@ public class ServiciosIweb {
     @WebMethod(operationName = "crearModulo")
     @Oneway
     public void crearModulo(@WebParam(name = "nombre") String nombre, @WebParam(name = "alfa") double alfa, @WebParam(name = "beta") double beta, @WebParam(name = "gamma") double gamma, @WebParam(name = "kappa") double kappa) {
-        Modulo m = new Modulo();
-        m.setNombre(nombre);
-        m.setAlfa(alfa);
-        m.setBeta(beta);
-        m.setGamma(gamma);
-        m.setKappa(kappa);
-        
-        moduloFacade.create(m);
+        if (comprobarExistenciaModulo(this.buscarModulos(), nombre)) {
+            Modulo m = new Modulo();
+            m.setNombre(nombre);
+            m.setAlfa(alfa);
+            m.setBeta(beta);
+            m.setGamma(gamma);
+            m.setKappa(kappa);
+
+            moduloFacade.create(m);
+        }
     }
-    
-    @WebMethod(operationName="crearCampaña")
+
+    private boolean comprobarExistenciaModulo(List<Modulo> lista, String nombre) {
+        boolean res = true;
+
+        for (Modulo m : lista) {
+            if (m.getNombre().equals(nombre)) {
+                res = false;
+                break;
+            }
+        }
+
+        return res;
+    }
+
+    private boolean comprobarExistenciaCampaña(List<Campaña> lista, String nombre) {
+        boolean res = true;
+
+        for (Campaña c : lista) {
+            System.out.print(c.getNombre() + " " + nombre);
+            if (c.getNombre().equals(nombre)) {
+                System.out.print("aiu");
+                res = false;
+                break;
+            }
+        }
+
+        return res;
+    }
+
+    @WebMethod(operationName = "crearCampaña")
     @Oneway
-    public void crearCampaña(@WebParam(name = "modulo") long modulo, @WebParam(name = "nombre") String nombre, @WebParam(name = "fechaIni") Date fechaIni, @WebParam(name = "fechaFin") Date fechaFin){
+    public void crearCampaña(@WebParam(name = "modulo") long modulo, @WebParam(name = "nombre") String nombre, @WebParam(name = "fechaIni") Date fechaIni, @WebParam(name = "fechaFin") Date fechaFin) {
         Campaña c = new Campaña();
         Modulo m = moduloFacade.find(modulo);
-        
-        c.setModulo(m);
-        c.setNombre(nombre);
-        c.setFechaInicio(fechaIni);
-        c.setFechaFin(fechaFin);
-        
+
         List<Campaña> aux = m.getCampañaList();
-        aux.add(c);
-        m.setCampañaList(aux);
-        
-        campañaFacade.create(c);
-        moduloFacade.edit(m);
+        if (comprobarExistenciaCampaña(aux, nombre)) {
+            c.setModulo(m);
+            c.setNombre(nombre);
+            c.setFechaInicio(fechaIni);
+            c.setFechaFin(fechaFin);
+
+            aux.add(c);
+            m.setCampañaList(aux);
+
+            campañaFacade.create(c);
+            moduloFacade.edit(m);
+        }
     }
-    
+
     @WebMethod(operationName = "editarModulo")
     @Oneway
     public void editarModulo(@WebParam(name = "id") long id, @WebParam(name = "nombre") String nombre, @WebParam(name = "alfa") double alfa, @WebParam(name = "beta") double beta, @WebParam(name = "gamma") double gamma, @WebParam(name = "kappa") double kappa) {
-        Modulo m = moduloFacade.find(id);
-        m.setNombre(nombre);
-        m.setAlfa(alfa);
-        m.setBeta(beta);
-        m.setGamma(gamma);
-        m.setKappa(kappa);
-        
-        moduloFacade.edit(m);
+        if (comprobarExistenciaModulo(this.buscarModulos(), nombre)) {
+            Modulo m = moduloFacade.find(id);
+            m.setNombre(nombre);
+            m.setAlfa(alfa);
+            m.setBeta(beta);
+            m.setGamma(gamma);
+            m.setKappa(kappa);
+
+            moduloFacade.edit(m);
+        }
     }
-    
-    @WebMethod(operationName ="editarCampaña")
+
+    @WebMethod(operationName = "editarCampaña")
     @Oneway
-    public void editarCampaña(@WebParam(name = "id") long id, @WebParam(name = "modulo") long modulo, @WebParam(name = "nombre") String nombre, @WebParam(name = "fechaIni") Date fechaIni, @WebParam(name = "fechaFin") Date fechaFin){
+    public void editarCampaña(@WebParam(name = "id") long id, @WebParam(name = "modulo") long modulo, @WebParam(name = "nombre") String nombre, @WebParam(name = "fechaIni") Date fechaIni, @WebParam(name = "fechaFin") Date fechaFin) {
         Campaña c = campañaFacade.find(id);
         Modulo m = moduloFacade.find(modulo);
         Modulo n = c.getModulo();
-        
-        if(!Objects.equals(n.getId(), m.getId())){
-            List<Campaña> aux = n.getCampañaList();
-            aux.remove(c);
-            n.setCampañaList(aux);
-            
-            List<Campaña> aux1 = m.getCampañaList();
-            aux1.add(c);
-            m.setCampañaList(aux1);
-        
-            c.setModulo(m);
-            moduloFacade.edit(n);
-            moduloFacade.edit(m);
+
+        if (comprobarExistenciaCampaña(m.getCampañaList(), nombre)) {
+
+            if (!Objects.equals(n.getId(), m.getId())) {
+                List<Campaña> aux = n.getCampañaList();
+                aux.remove(c);
+                n.setCampañaList(aux);
+
+                List<Campaña> aux1 = m.getCampañaList();
+                aux1.add(c);
+                m.setCampañaList(aux1);
+
+                c.setModulo(m);
+                moduloFacade.edit(n);
+                moduloFacade.edit(m);
+            }
+
+            c.setNombre(nombre);
+            c.setFechaInicio(fechaIni);
+            c.setFechaFin(fechaFin);
+
+            campañaFacade.edit(c);
         }
-        
-        c.setNombre(nombre);
-        c.setFechaInicio(fechaIni);
-        c.setFechaFin(fechaFin);
-        
-        campañaFacade.edit(c);
-        
     }
-    
+
     @WebMethod(operationName = "borrarModulo")
     @Oneway
     public void borrarModulo(@WebParam(name = "id") long id) {
         Modulo m = moduloFacade.find(id);
         moduloFacade.remove(m);
     }
-    
+
     @WebMethod(operationName = "borrarCampaña")
     @Oneway
     public void borrarCampaña(@WebParam(name = "id") long id) {
-        Campaña m = campañaFacade.find(id);
-        campañaFacade.remove(m);
+        Campaña c = campañaFacade.find(id);
+        Modulo m = moduloFacade.find(c.getModulo().getId());
+        
+        List<Campaña> aux = m.getCampañaList();
+        aux.remove(c);
+        m.setCampañaList(aux);
+            
+        campañaFacade.remove(c);
     }
-    
+
     //Búsqueda Módulos
-    @WebMethod(operationName ="buscarModulos")
-    public List<Modulo> buscarModulos(){        
+    @WebMethod(operationName = "buscarModulos")
+    public List<Modulo> buscarModulos() {
         return moduloFacade.findAll();
     }
-    
+
     //Campañas de módulos
     @WebMethod(operationName = "buscarCampañasModulo")
-    public List<Campaña> buscarCampañasModulo(@WebParam(name = "id") long id){
+    public List<Campaña> buscarCampañasModulo(@WebParam(name = "id") long id) {
         Modulo m = moduloFacade.find(id);
-        
+
         return m.getCampañaList();
     }
-    
+
     //Modulo por nombre
     @WebMethod(operationName = "buscarModulosNombre")
-    public List<Modulo> buscarModuloNombre(@WebParam(name = "nombre") String nombre){
+    public List<Modulo> buscarModuloNombre(@WebParam(name = "nombre") String nombre) {
         List<Modulo> lista = new ArrayList<>();
-        
+
         moduloFacade.findAll().stream().filter((m) -> (m.getNombre().equals(nombre))).forEachOrdered((m) -> {
             lista.add(m);
         });
-        
-        
+
         return lista;
     }
-    
+
     //Campañas de módulo por fecha
     //Campañas de módulos
     @WebMethod(operationName = "buscarCampañasModuloFechaInicio")
-    public List<Campaña> buscarCampañasModuloFechaInicio(@WebParam(name = "id") long id, @WebParam(name = "fecha") Date fecha){
+    public List<Campaña> buscarCampañasModuloFechaInicio(@WebParam(name = "id") long id, @WebParam(name = "fecha") Date fecha) {
         Modulo m = moduloFacade.find(id);
         List<Campaña> lista = new ArrayList<>();
-        Calendar ca= Calendar.getInstance();
-        Calendar ca2= Calendar.getInstance();
+        Calendar ca = Calendar.getInstance();
+        Calendar ca2 = Calendar.getInstance();
         ca.setTime(fecha);
-        int day=ca.get(Calendar.DAY_OF_MONTH);
-        int month=ca.get(Calendar.MONTH);
-        int year=ca.get(Calendar.YEAR);
-        int day2=0;
-        int month2=0;
-        int year2=0;
-        for(Campaña c : m.getCampañaList()){
+        int day = ca.get(Calendar.DAY_OF_MONTH);
+        int month = ca.get(Calendar.MONTH);
+        int year = ca.get(Calendar.YEAR);
+        int day2 = 0;
+        int month2 = 0;
+        int year2 = 0;
+        for (Campaña c : m.getCampañaList()) {
             ca2.setTime(c.getFechaInicio());
-            day2=ca2.get(Calendar.DAY_OF_MONTH);
-            month2=ca2.get(Calendar.MONTH);
-            year2=ca2.get(Calendar.YEAR);
-            if(day2==day&&month2==month&&year2==year){
+            day2 = ca2.get(Calendar.DAY_OF_MONTH);
+            month2 = ca2.get(Calendar.MONTH);
+            year2 = ca2.get(Calendar.YEAR);
+            if (day2 == day && month2 == month && year2 == year) {
                 lista.add(c);
             }
         }
-        
+
         return lista;
     }
-    
-    @WebMethod(operationName = "buscarCampañasModuloFecha")
-    public List<Campaña> buscarCampañasModuloFecha(@WebParam(name = "id") long id, @WebParam(name = "fecha") Date fecha){
-        Modulo m = moduloFacade.find(id);
-        List<Campaña> lista = new ArrayList<>();
-        
-        for(Campaña c : m.getCampañaList()){
-            if(fecha.after(c.getFechaInicio()) && fecha.before(c.getFechaFin()))
-                lista.add(c);
-        }
-        
-        return lista;
-    }
-    
+
     @WebMethod(operationName = "crearCampañaNombre")
     @Oneway
-    public void crearCampañaNombre(@WebParam(name = "nombreModulo") String nombreModulo, @WebParam(name = "nombre") String nombre, @WebParam(name = "fechaIni") Date fechaIni, @WebParam(name = "fechaFin") Date fechaFin){
+    public void crearCampañaNombre(@WebParam(name = "nombreModulo") String nombreModulo, @WebParam(name = "nombre") String nombre, @WebParam(name = "fechaIni") Date fechaIni, @WebParam(name = "fechaFin") Date fechaFin) {
         List<Modulo> lista = buscarModuloNombre(nombreModulo);
         Modulo m;
-        
-        if(lista.isEmpty()){
+
+        if (lista.isEmpty()) {
             crearModulo(nombreModulo, 0, 0, 0, 0);
-        } 
-        this.crearCampaña(buscarModuloNombre(nombreModulo).get(0).getId(), nombre, fechaIni, fechaFin);   
+        }
+        this.crearCampaña(buscarModuloNombre(nombreModulo).get(0).getId(), nombre, fechaIni, fechaFin);
     }
 }

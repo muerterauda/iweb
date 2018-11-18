@@ -31,7 +31,7 @@ import services.ServiciosIweb_Service;
 @SessionScoped
 public class TestBean implements Serializable{
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ServiciosIweb/ServiciosIweb.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8992/ServiciosIweb/ServiciosIweb.wsdl")
     private ServiciosIweb_Service service;
 
     int cuentamodulo;
@@ -53,7 +53,6 @@ public class TestBean implements Serializable{
     public void setNombremoduloparacrearcampaña(String nombremoduloparacrearcampaña) {
         this.nombremoduloparacrearcampaña = nombremoduloparacrearcampaña;
     }
-
     
     public Date getFechaQuery() {
         return fechaQuery;
@@ -84,7 +83,7 @@ public class TestBean implements Serializable{
     public void doCrearCampaña() {
         try {
             GregorianCalendar c1 = new GregorianCalendar();
-            c1.setTime(fechaIni);
+            c1.setTime(fechaQuery);
             XMLGregorianCalendar calendarIni = DatatypeFactory.newInstance().newXMLGregorianCalendar(c1);
             
             GregorianCalendar c2 = new GregorianCalendar();
@@ -101,7 +100,7 @@ public class TestBean implements Serializable{
     public void doEditarCampaña() {
         try {
             GregorianCalendar c1 = new GregorianCalendar();
-            c1.setTime(fechaIni);
+            c1.setTime(fechaQuery);
             XMLGregorianCalendar calendarIni = DatatypeFactory.newInstance().newXMLGregorianCalendar(c1);
             
             GregorianCalendar c2 = new GregorianCalendar();
@@ -314,13 +313,6 @@ public class TestBean implements Serializable{
         // If the calling of port operations may lead to race condition some synchronization is required.
         services.ServiciosIweb port = service.getServiciosIwebPort();
         return port.buscarCampañasModulo(id);
-    }
-
-    private java.util.List<services.Campaña> buscarCampañasModuloFecha(long id, javax.xml.datatype.XMLGregorianCalendar fecha) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        services.ServiciosIweb port = service.getServiciosIwebPort();
-        return port.buscarCampañasModuloFecha(id, fecha);
     }
 
     private java.util.List<services.Campaña> buscarCampañasModuloFechaInicio(long id, javax.xml.datatype.XMLGregorianCalendar fecha) {
