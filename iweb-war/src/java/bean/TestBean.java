@@ -31,7 +31,7 @@ import services.ServiciosIweb_Service;
 @SessionScoped
 public class TestBean implements Serializable{
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8992/ServiciosIweb/ServiciosIweb.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ServiciosIweb/ServiciosIweb.wsdl")
     private ServiciosIweb_Service service;
 
     int cuentamodulo;

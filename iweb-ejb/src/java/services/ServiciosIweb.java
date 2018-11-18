@@ -10,7 +10,9 @@ import ejb.ModuloFacade;
 import entity.Campaña;
 import entity.Modulo;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 import javax.ejb.EJB;
@@ -164,10 +166,23 @@ public class ServiciosIweb {
     public List<Campaña> buscarCampañasModuloFechaInicio(@WebParam(name = "id") long id, @WebParam(name = "fecha") Date fecha){
         Modulo m = moduloFacade.find(id);
         List<Campaña> lista = new ArrayList<>();
-        
+        Calendar ca= Calendar.getInstance();
+        Calendar ca2= Calendar.getInstance();
+        ca.setTime(fecha);
+        int day=ca.get(Calendar.DAY_OF_MONTH);
+        int month=ca.get(Calendar.MONTH);
+        int year=ca.get(Calendar.YEAR);
+        int day2=0;
+        int month2=0;
+        int year2=0;
         for(Campaña c : m.getCampañaList()){
-            if(c.getFechaInicio().equals(fecha))
+            ca2.setTime(c.getFechaInicio());
+            day2=ca2.get(Calendar.DAY_OF_MONTH);
+            month2=ca2.get(Calendar.MONTH);
+            year2=ca2.get(Calendar.YEAR);
+            if(day2==day&&month2==month&&year2==year){
                 lista.add(c);
+            }
         }
         
         return lista;
