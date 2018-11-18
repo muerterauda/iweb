@@ -68,16 +68,21 @@
             <h:commandButton value="Crear Modulo" action="#{testBean.doCrearModulo()}"/>
             <h:commandButton value="Editar Modulo" action="#{testBean.doEditarModulo()}"/>
             <h:commandButton value="Borrar Modulo" action="#{testBean.doBorrarModulo()}"/>
-            (Emplea la casilla ID)<br/>
+            (Emplea la casilla ID de arriba)<br/>
             
             <h2>Pruebas Campaña</h2>
             
-            ID:
+            ID campaña:
             <h:inputText value="#{testBean.idcampaña}"/>
-            Módulo:
+            ID Módulo:
             <h:inputText value="#{testBean.idmoduloparabuscarcampañas}"/>
+            Fecha de inicio:
+            <h:inputText value="#{testBean.fechaIni}">
+                <f:convertDateTime pattern="yyyy-MM-dd"/>  
+            </h:inputText>
+                <br/>
             <h:commandButton value="Buscar campañas por modulo" action="#{testBean.setCampañaspormodulo()}"/><br/>
-            
+            <h:commandButton value="Buscar campañas por módulo y fecha de inicio" action="#{testBean.doBuscarPorModuloYFechaInicio()}"/><br/>
             <h:dataTable id="campañaspormodulodatatable" value="#{testBean.campañaspormodulo}" var="campormod">
                 <h:column>
                     <f:facet name="header">ID</f:facet>
@@ -103,9 +108,11 @@
             
             <h3>Operaciones Campaña</h3>
             
-            Módulo: <h:inputText value="#{testBean.modulo}"/>
+            ID Módulo: <h:inputText value="#{testBean.modulo}"/>
+            Nombre Modulo:<h:inputText value ="#{testBean.nombremoduloparacrearcampaña}"/>
             Nombre: <h:inputText value="#{testBean.nombreCampaña}"/>
-            Fecha Inicio: <h:inputText value="#{testBean.fechaIni}">  
+            
+            Fecha Inicio: <h:inputText value="#{testBean.fechaQuery}">  
                 <f:convertDateTime pattern="yyyy-MM-dd"/>  
             </h:inputText>
             Fecha Fin: <h:inputText value="#{testBean.fechaFin}">  
@@ -114,6 +121,7 @@
             <h:commandButton value="Crear Campaña" action="#{testBean.doCrearCampaña()}"/>
             <h:commandButton value="Editar Campaña" action="#{testBean.doEditarCampaña()}"/>
             <h:commandButton value="Borrar Campaña" action="#{testBean.doBorrarCampaña()}"/>
+            <h:commandButton value="Crear campaña con nombre de modulo" action="#{testBean.doCrearCampañaNombre()}"/>
         </h:form>
     </h:body>
 </html>

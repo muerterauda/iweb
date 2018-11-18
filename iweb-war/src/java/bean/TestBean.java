@@ -9,10 +9,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceRef;
@@ -28,7 +31,7 @@ import services.ServiciosIweb_Service;
 @SessionScoped
 public class TestBean implements Serializable{
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8992/ServiciosIweb/ServiciosIweb.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_37789/ServiciosIweb/ServiciosIweb.wsdl")
     private ServiciosIweb_Service service;
 
     int cuentamodulo;
@@ -37,11 +40,28 @@ public class TestBean implements Serializable{
     long modulo;
     long idcampaña;
     long idmoduloparabuscarcampañas;
-    String nombreModulo;
+    String nombreModulo, nombremoduloparacrearcampaña;
     String nombre;
     double alfa, beta, gamma, kappa;
     String nombreCampaña;
-    Date fechaIni, fechaFin;
+    Date fechaIni, fechaFin, fechaQuery;
+
+    public String getNombremoduloparacrearcampaña() {
+        return nombremoduloparacrearcampaña;
+    }
+
+    public void setNombremoduloparacrearcampaña(String nombremoduloparacrearcampaña) {
+        this.nombremoduloparacrearcampaña = nombremoduloparacrearcampaña;
+    }
+
+    
+    public Date getFechaQuery() {
+        return fechaQuery;
+    }
+
+    public void setFechaQuery(Date fechaQuery) {
+        this.fechaQuery = fechaQuery;
+    }
     List<Modulo> modulos;
     List<Campaña> campañaspormodulo;
 
@@ -249,6 +269,31 @@ public class TestBean implements Serializable{
     public void setKappa(double kappa) {
         this.kappa = kappa;
     }
+    
+    public void doCrearCampañaNombre(){
+        try {
+            GregorianCalendar c1 = new GregorianCalendar();
+            c1.setTime(fechaIni);
+            XMLGregorianCalendar calendarIni = DatatypeFactory.newInstance().newXMLGregorianCalendar(c1);
+            GregorianCalendar c2 = new GregorianCalendar();
+            c2.setTime(fechaFin);
+            XMLGregorianCalendar calendarFin = DatatypeFactory.newInstance().newXMLGregorianCalendar(c2);
+            this.crearCampañaNombre(nombreCampaña,nombremoduloparacrearcampaña,calendarIni,calendarFin);
+        } catch (DatatypeConfigurationException ex) {
+            Logger.getLogger(TestBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void doBuscarPorModuloYFechaInicio() {
+        try {
+            GregorianCalendar c1 = new GregorianCalendar();
+            c1.setTime(fechaQuery);
+            XMLGregorianCalendar calendarIni = DatatypeFactory.newInstance().newXMLGregorianCalendar(c1);
+            this.campañaspormodulo=this.buscarCampañasModuloFechaInicio(idmoduloparabuscarcampañas, calendarIni);
+        } catch (DatatypeConfigurationException ex) {
+            Logger.getLogger(TestBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     private int countModulo() {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
@@ -325,6 +370,20 @@ public class TestBean implements Serializable{
         // If the calling of port operations may lead to race condition some synchronization is required.
         services.ServiciosIweb port = service.getServiciosIwebPort();
         port.editarCampaña(id, modulo, nombre, fechaIni, fechaFin);
+    }
+
+    private java.util.List<services.Campaña> buscarCampañasModuloFechaInicio(long id, javax.xml.datatype.XMLGregorianCalendar fecha) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        return port.buscarCampañasModuloFechaInicio(id, fecha);
+    }
+
+    private void crearCampañaNombre(java.lang.String nombreModulo, java.lang.String nombre, javax.xml.datatype.XMLGregorianCalendar fechaIni, javax.xml.datatype.XMLGregorianCalendar fechaFin) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        port.crearCampañaNombre(nombreModulo, nombre, fechaIni, fechaFin);
     }
 
 }
