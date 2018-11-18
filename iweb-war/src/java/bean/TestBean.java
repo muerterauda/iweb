@@ -31,7 +31,7 @@ import services.ServiciosIweb_Service;
 @SessionScoped
 public class TestBean implements Serializable{
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_37789/ServiciosIweb/ServiciosIweb.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8992/ServiciosIweb/ServiciosIweb.wsdl")
     private ServiciosIweb_Service service;
 
     int cuentamodulo;
@@ -273,12 +273,12 @@ public class TestBean implements Serializable{
     public void doCrearCampañaNombre(){
         try {
             GregorianCalendar c1 = new GregorianCalendar();
-            c1.setTime(fechaIni);
+            c1.setTime(fechaQuery);
             XMLGregorianCalendar calendarIni = DatatypeFactory.newInstance().newXMLGregorianCalendar(c1);
             GregorianCalendar c2 = new GregorianCalendar();
             c2.setTime(fechaFin);
             XMLGregorianCalendar calendarFin = DatatypeFactory.newInstance().newXMLGregorianCalendar(c2);
-            this.crearCampañaNombre(nombreCampaña,nombremoduloparacrearcampaña,calendarIni,calendarFin);
+            this.crearCampañaNombre(nombremoduloparacrearcampaña, nombreCampaña,calendarIni,calendarFin);
         } catch (DatatypeConfigurationException ex) {
             Logger.getLogger(TestBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -287,40 +287,12 @@ public class TestBean implements Serializable{
     public void doBuscarPorModuloYFechaInicio() {
         try {
             GregorianCalendar c1 = new GregorianCalendar();
-            c1.setTime(fechaQuery);
+            c1.setTime(fechaIni);
             XMLGregorianCalendar calendarIni = DatatypeFactory.newInstance().newXMLGregorianCalendar(c1);
             this.campañaspormodulo=this.buscarCampañasModuloFechaInicio(idmoduloparabuscarcampañas, calendarIni);
         } catch (DatatypeConfigurationException ex) {
             Logger.getLogger(TestBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private int countModulo() {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        services.ServiciosIweb port = service.getServiciosIwebPort();
-        return port.countModulo();
-    }
-
-    private int countCampaña() {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        services.ServiciosIweb port = service.getServiciosIwebPort();
-        return port.countCampaña();
-    }
-
-    private java.util.List<services.Campaña> buscarCampañasModulo(long id) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        services.ServiciosIweb port = service.getServiciosIwebPort();
-        return port.buscarCampañasModulo(id);
-    }
-
-    private java.util.List<services.Modulo> buscarModulos() {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        services.ServiciosIweb port = service.getServiciosIwebPort();
-        return port.buscarModulos();
     }
 
     private void borrarCampaña(long id) {
@@ -337,39 +309,18 @@ public class TestBean implements Serializable{
         port.borrarModulo(id);
     }
 
-    private java.util.List<services.Modulo> buscarModulosNombre(java.lang.String nombre) {
+    private java.util.List<services.Campaña> buscarCampañasModulo(long id) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         services.ServiciosIweb port = service.getServiciosIwebPort();
-        return port.buscarModulosNombre(nombre);
+        return port.buscarCampañasModulo(id);
     }
 
-    private void crearModulo(java.lang.String nombre, double alfa, double beta, double gamma, double kappa) {
+    private java.util.List<services.Campaña> buscarCampañasModuloFecha(long id, javax.xml.datatype.XMLGregorianCalendar fecha) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         services.ServiciosIweb port = service.getServiciosIwebPort();
-        port.crearModulo(nombre, alfa, beta, gamma, kappa);
-    }
-
-    private void editarModulo(long id, java.lang.String nombre, double alfa, double beta, double gamma, double kappa) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        services.ServiciosIweb port = service.getServiciosIwebPort();
-        port.editarModulo(id, nombre, alfa, beta, gamma, kappa);
-    }
-
-    private void crearCampaña(long modulo, java.lang.String nombre, javax.xml.datatype.XMLGregorianCalendar fechaIni, javax.xml.datatype.XMLGregorianCalendar fechaFin) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        services.ServiciosIweb port = service.getServiciosIwebPort();
-        port.crearCampaña(modulo, nombre, fechaIni, fechaFin);
-    }
-
-    private void editarCampaña(long id, long modulo, java.lang.String nombre, javax.xml.datatype.XMLGregorianCalendar fechaIni, javax.xml.datatype.XMLGregorianCalendar fechaFin) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        services.ServiciosIweb port = service.getServiciosIwebPort();
-        port.editarCampaña(id, modulo, nombre, fechaIni, fechaFin);
+        return port.buscarCampañasModuloFecha(id, fecha);
     }
 
     private java.util.List<services.Campaña> buscarCampañasModuloFechaInicio(long id, javax.xml.datatype.XMLGregorianCalendar fecha) {
@@ -379,11 +330,69 @@ public class TestBean implements Serializable{
         return port.buscarCampañasModuloFechaInicio(id, fecha);
     }
 
+    private java.util.List<services.Modulo> buscarModulos() {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        return port.buscarModulos();
+    }
+
+    private java.util.List<services.Modulo> buscarModulosNombre(java.lang.String nombre) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        return port.buscarModulosNombre(nombre);
+    }
+
+    private int countCampaña() {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        return port.countCampaña();
+    }
+
+    private int countModulo() {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        return port.countModulo();
+    }
+
+    private void crearCampaña(long modulo, java.lang.String nombre, javax.xml.datatype.XMLGregorianCalendar fechaIni, javax.xml.datatype.XMLGregorianCalendar fechaFin) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        port.crearCampaña(modulo, nombre, fechaIni, fechaFin);
+    }
+
     private void crearCampañaNombre(java.lang.String nombreModulo, java.lang.String nombre, javax.xml.datatype.XMLGregorianCalendar fechaIni, javax.xml.datatype.XMLGregorianCalendar fechaFin) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         services.ServiciosIweb port = service.getServiciosIwebPort();
         port.crearCampañaNombre(nombreModulo, nombre, fechaIni, fechaFin);
     }
+
+    private void crearModulo(java.lang.String nombre, double alfa, double beta, double gamma, double kappa) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        port.crearModulo(nombre, alfa, beta, gamma, kappa);
+    }
+
+    private void editarCampaña(long id, long modulo, java.lang.String nombre, javax.xml.datatype.XMLGregorianCalendar fechaIni, javax.xml.datatype.XMLGregorianCalendar fechaFin) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        port.editarCampaña(id, modulo, nombre, fechaIni, fechaFin);
+    }
+
+    private void editarModulo(long id, java.lang.String nombre, double alfa, double beta, double gamma, double kappa) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        port.editarModulo(id, nombre, alfa, beta, gamma, kappa);
+    }
+
+    
 
 }
