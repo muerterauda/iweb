@@ -12,7 +12,6 @@ import entity.Modulo;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 import javax.ejb.EJB;
@@ -48,7 +47,7 @@ public class ServiciosIweb {
     @WebMethod(operationName = "crearModulo")
     @Oneway
     public void crearModulo(@WebParam(name = "nombre") String nombre, @WebParam(name = "alfa") double alfa, @WebParam(name = "beta") double beta, @WebParam(name = "gamma") double gamma, @WebParam(name = "kappa") double kappa) {
-        if (comprobarExistenciaModulo(this.buscarModulos(), nombre)) {
+        if (comprobarExistenciaModulo(this.buscarModulos(), nombre,-1)) {
             Modulo m = new Modulo();
             m.setNombre(nombre);
             m.setAlfa(alfa);
@@ -60,11 +59,11 @@ public class ServiciosIweb {
         }
     }
 
-    private boolean comprobarExistenciaModulo(List<Modulo> lista, String nombre) {
+    private boolean comprobarExistenciaModulo(List<Modulo> lista, String nombre, long id) {
         boolean res = true;
 
         for (Modulo m : lista) {
-            if (m.getNombre().equals(nombre)) {
+            if (m.getNombre().equals(nombre)&&id!=m.getId()) {
                 res = false;
                 break;
             }
@@ -73,12 +72,12 @@ public class ServiciosIweb {
         return res;
     }
 
-    private boolean comprobarExistenciaCampaña(List<Campaña> lista, String nombre) {
+    private boolean comprobarExistenciaCampaña(List<Campaña> lista, String nombre, long id) {
         boolean res = true;
 
         for (Campaña c : lista) {
             System.out.print(c.getNombre() + " " + nombre);
-            if (c.getNombre().equals(nombre)) {
+            if (c.getNombre().equals(nombre)&&c.getId()!=id) {
                 System.out.print("aiu");
                 res = false;
                 break;
@@ -95,7 +94,7 @@ public class ServiciosIweb {
         Modulo m = moduloFacade.find(modulo);
 
         List<Campaña> aux = m.getCampañaList();
-        if (comprobarExistenciaCampaña(aux, nombre)) {
+        if (comprobarExistenciaCampaña(aux, nombre,-1)) {
             c.setModulo(m);
             c.setNombre(nombre);
             c.setFechaInicio(fechaIni);
@@ -112,7 +111,7 @@ public class ServiciosIweb {
     @WebMethod(operationName = "editarModulo")
     @Oneway
     public void editarModulo(@WebParam(name = "id") long id, @WebParam(name = "nombre") String nombre, @WebParam(name = "alfa") double alfa, @WebParam(name = "beta") double beta, @WebParam(name = "gamma") double gamma, @WebParam(name = "kappa") double kappa) {
-        if (comprobarExistenciaModulo(this.buscarModulos(), nombre)) {
+        if (comprobarExistenciaModulo(this.buscarModulos(), nombre, id)) {
             Modulo m = moduloFacade.find(id);
             m.setNombre(nombre);
             m.setAlfa(alfa);
@@ -131,7 +130,7 @@ public class ServiciosIweb {
         Modulo m = moduloFacade.find(modulo);
         Modulo n = c.getModulo();
 
-        if (comprobarExistenciaCampaña(m.getCampañaList(), nombre)) {
+        if (comprobarExistenciaCampaña(m.getCampañaList(), nombre, id)) {
 
             if (!Objects.equals(n.getId(), m.getId())) {
                 List<Campaña> aux = n.getCampañaList();
@@ -200,7 +199,19 @@ public class ServiciosIweb {
 
         return lista;
     }
+  //Modulo por nombre
+    @WebMethod(operationName = "buscarCampañaNombre")
+    public List<Campaña> buscarCampañaNombre(@WebParam(name = "nombre") String nombre, @WebParam(name = "nombreModulo") String nombreModulo) {
+        List<Campaña> lista = new ArrayList<>();
 
+        campañaFacade.findAll().stream().filter((m) -> (m.getNombre().equals(nombre))).forEachOrdered((m) -> {
+            if(m.getModulo().getNombre().equals(nombreModulo)){
+                lista.add(m);
+            }
+        });
+
+        return lista;
+    }
     //Campañas de módulo por fecha
     //Campañas de módulos
     @WebMethod(operationName = "buscarCampañasModuloFechaInicio")
@@ -239,5 +250,11 @@ public class ServiciosIweb {
             crearModulo(nombreModulo, 0, 0, 0, 0);
         }
         this.crearCampaña(buscarModuloNombre(nombreModulo).get(0).getId(), nombre, fechaIni, fechaFin);
+    }
+   
+    
+    @WebMethod(operationName ="getCampañas")
+    public List<Campaña> getCampañas(){
+        return campañaFacade.findAll();
     }
 }
