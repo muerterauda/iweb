@@ -190,16 +190,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="countCampaña">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="countCampañaResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="buscarModulos">
 <xs:sequence/>
 </xs:complexType>
@@ -207,6 +197,16 @@
 <xs:complexType name="buscarModulosResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:modulo" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="countCampaña">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="countCampañaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 

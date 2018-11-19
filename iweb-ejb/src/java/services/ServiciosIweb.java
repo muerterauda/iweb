@@ -244,8 +244,6 @@ public class ServiciosIweb {
     @Oneway
     public void crearCampañaNombre(@WebParam(name = "nombreModulo") String nombreModulo, @WebParam(name = "nombre") String nombre, @WebParam(name = "fechaIni") Date fechaIni, @WebParam(name = "fechaFin") Date fechaFin) {
         List<Modulo> lista = buscarModuloNombre(nombreModulo);
-        Modulo m;
-
         if (lista.isEmpty()) {
             crearModulo(nombreModulo, 0, 0, 0, 0);
         }
