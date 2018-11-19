@@ -31,7 +31,7 @@ import services.ServiciosIweb_Service;
 @SessionScoped
 public class TestBean implements Serializable{
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8992/ServiciosIweb/ServiciosIweb.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ServiciosIweb/ServiciosIweb.wsdl")
     private ServiciosIweb_Service service;
 
     int cuentamodulo;
@@ -79,7 +79,16 @@ public class TestBean implements Serializable{
         this.crearModulo(nombre, alfa, beta, gamma, kappa);
         this.setModulos();
     }
-
+    public String getFecha(XMLGregorianCalendar c){
+        StringBuilder sb=new StringBuilder();
+        String day=c.getDay()+"-";
+        String month=c.getMonth()+"-";
+        String year=c.getYear()+"";
+        sb.append(day);
+        sb.append(month);
+        sb.append(year);
+        return sb.toString();
+    }
     public void doCrearCampaña() {
         try {
             GregorianCalendar c1 = new GregorianCalendar();

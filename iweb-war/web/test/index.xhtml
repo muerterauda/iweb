@@ -72,8 +72,6 @@
             
             <h2>Pruebas Campaña</h2>
             
-            ID campaña:
-            <h:inputText value="#{testBean.idcampaña}"/>
             ID Módulo:
             <h:inputText value="#{testBean.idmoduloparabuscarcampañas}"/>
             Fecha de inicio:
@@ -98,31 +96,30 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Fecha de inicio</f:facet>
-                    #{campormod.fechaInicio}
+                    #{testBean.getFecha(campormod.fechaInicio)}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Fecha de fin</f:facet>
-                    #{campormod.fechaFin}
+                    #{testBean.getFecha(campormod.fechaFin)}
                 </h:column>
             </h:dataTable>
             
             <h3>Operaciones Campaña</h3>
-            
+            ID campaña:<h:inputText value="#{testBean.idcampaña}"/>
             ID Módulo: <h:inputText value="#{testBean.modulo}"/>
             Nombre Modulo:<h:inputText value ="#{testBean.nombremoduloparacrearcampaña}"/>
             Nombre: <h:inputText value="#{testBean.nombreCampaña}"/>
             
-            Fecha Inicio: <h:inputText value="#{testBean.fechaQuery}">  
+            Fecha Inicio(yyy-MM-dd): <h:inputText value="#{testBean.fechaQuery}">  
                 <f:convertDateTime pattern="yyyy-MM-dd"/>  
             </h:inputText>
-            Fecha Fin: <h:inputText value="#{testBean.fechaFin}">  
+            Fecha Fin(yyy-MM-dd): <h:inputText value="#{testBean.fechaFin}">  
                 <f:convertDateTime pattern="yyyy-MM-dd"/>  
             </h:inputText><br/>
             <h:commandButton value="Crear Campaña" action="#{testBean.doCrearCampaña()}"/>
             <h:commandButton value="Crear campaña con nombre de modulo" action="#{testBean.doCrearCampañaNombre()}"/>
             <h:commandButton value="Editar Campaña" action="#{testBean.doEditarCampaña()}"/>
             <h:commandButton value="Borrar Campaña" action="#{testBean.doBorrarCampaña()}"/>
-            (Usa el campo ID de arriba)
         </h:form>
     </h:body>
 </html>
