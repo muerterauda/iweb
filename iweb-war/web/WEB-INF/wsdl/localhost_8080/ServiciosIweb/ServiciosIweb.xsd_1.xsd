@@ -114,6 +114,12 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="borrarModulo">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="buscarCampañasModulo">
 <xs:sequence>
 <xs:element name="id" type="xs:long"/>
@@ -123,12 +129,6 @@
 <xs:complexType name="buscarCampañasModuloResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:campaña" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="borrarModulo">
-<xs:sequence>
-<xs:element name="id" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
