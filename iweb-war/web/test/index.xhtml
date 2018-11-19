@@ -5,31 +5,32 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Test</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
     </h:head>
-    <h:body>
-        <h1>PRUEBAS PVSHOWER</h1>
+    <h:body class="container-fluid">
+        <h:outputStylesheet library = "css" name="modulos.css"/>
+        <h1>Pruebas PVSHOWER</h1>
         <h:form>
-            <h:outputText id="textocuentamodulo" value="#{testBean.cuentaModulo}"/>
-            ->
-            <h:commandButton value="Contar Modulos" action="#{testBean.setCountModulo()}">
+            N&uacute;mero de elementos almacenados en el sistema:<br/>
+            - <b>M&oacute;dulos: </b><h:outputText id="textocuentamodulo" value="#{testBean.cuentaModulo}"/>
+            <h:commandButton class="boton" value="Contar Modulos" action="#{testBean.setCountModulo()}">
                 <f:ajax render="textocuentamodulo"/>
             </h:commandButton><br/>
             
-            <h:outputText id="textocuentacampaña" value="#{testBean.cuentaCamapaña}"/>
-            ->
-            <h:commandButton value="Contar Campañas" action="#{testBean.setCuentaCampaña()}">
+            - <b>Campa&ntilde;as: </b><h:outputText id="textocuentacampaña" value="#{testBean.cuentaCamapaña}"/>
+            <h:commandButton class="boton" value="Contar Campañas" action="#{testBean.setCuentaCampaña()}">
                 <f:ajax render="textocuentacampaña"/>
-            </h:commandButton><br/>
+            </h:commandButton><br/><br/>
             
             <h2>Pruebas M&oacute;dulo</h2>
+            <b>ID:</b><br/>
+            <h:inputText value="#{testBean.idmodulo}"/><br/><br/>
+            <b>Nombre:</b><br/> 
+            <h:inputText value="#{testBean.nombreModulo}"/><br/><br/>
             
-            ID: 
-            <h:inputText value="#{testBean.idmodulo}"/>
-            Nombre: 
-            <h:inputText value="#{testBean.nombreModulo}"/>
-            <h:commandButton value="Buscar por nombre" action="#{testBean.doBuscarModulosNombre()}"/><br/>
+            <h:commandButton class="boton" value="Buscar por nombre" action="#{testBean.doBuscarModulosNombre()}"/>
             
-            <h:commandButton value="Listar todos los módulos" action="#{testBean.setModulos()}"/><br/>
+            <h:commandButton class="boton" value="Listar todos los módulos" action="#{testBean.setModulos()}"/><br/><br/>
             
             
             <h:dataTable id="modulosalldatatable" value="#{testBean.modulos}" var="modulo">
@@ -57,30 +58,29 @@
                     <f:facet name="header">Kappa</f:facet>
                     #{modulo.kappa}
                 </h:column>
-            </h:dataTable>
+            </h:dataTable><br/>
             
-            <h3>Operaciones M&oacute;dulo</h3>
-            Nombre: <h:inputText value="#{testBean.nombre}"/>
-            Alfa: <h:inputText value="#{testBean.alfa}"/>
-            Beta: <h:inputText value="#{testBean.beta}"/>
-            Gamma: <h:inputText value="#{testBean.gamma}"/>
-            Kappa: <h:inputText value="#{testBean.kappa}"/><br/>
-            <h:commandButton value="Crear Modulo" action="#{testBean.doCrearModulo()}"/>
-            <h:commandButton value="Editar Modulo" action="#{testBean.doEditarModulo()}"/>
-            <h:commandButton value="Borrar Modulo" action="#{testBean.doBorrarModulo()}"/>
-            (Emplea el campo ID de arriba)<br/>
+            <h4>Operaciones M&oacute;dulo</h4>
+            <b>Nombre:</b><br/> <h:inputText value="#{testBean.nombre}"/><br/><br/>
+            <b>Alfa:</b><br/> <h:inputText value="#{testBean.alfa}"/><br/><br/>
+            <b>Beta:</b><br/> <h:inputText value="#{testBean.beta}"/><br/><br/>
+            <b>Gamma:</b><br/> <h:inputText value="#{testBean.gamma}"/><br/><br/>
+            <b>Kappa:</b><br/> <h:inputText value="#{testBean.kappa}"/><br/><br/>
+            <h:commandButton class="boton" value="Crear Modulo" action="#{testBean.doCrearModulo()}"/>
+            <h:commandButton class="boton" value="Editar Modulo" action="#{testBean.doEditarModulo()}"/>
+            <h:commandButton class="boton" value="Borrar Modulo" action="#{testBean.doBorrarModulo()}"/>
+            (Emplea el campo ID del apartado anterior)<br/><br/>
             
             <h2>Pruebas Campaña</h2>
             
-            ID Módulo:
-            <h:inputText value="#{testBean.idmoduloparabuscarcampañas}"/>
-            Fecha de inicio:
+            <b>ID Módulo:</b><br/>
+            <h:inputText value="#{testBean.idmoduloparabuscarcampañas}"/><br/><br/>
+            <b>Fecha de inicio:</b><i> (dd-MM-yyyy)</i><br/>
             <h:inputText value="#{testBean.fechaIni}">
-                <f:convertDateTime pattern="yyyy-MM-dd"/>  
-            </h:inputText>
-                <br/>
-            <h:commandButton value="Buscar campañas por modulo" action="#{testBean.setCampañaspormodulo()}"/><br/>
-            <h:commandButton value="Buscar campañas por módulo y fecha de inicio" action="#{testBean.doBuscarPorModuloYFechaInicio()}"/><br/>
+                <f:convertDateTime pattern="dd-MM-yyyy"/>  
+            </h:inputText><br/><br/>
+            <h:commandButton class="boton" value="Buscar campañas por modulo" action="#{testBean.setCampañaspormodulo()}"/>
+            <h:commandButton class="boton" value="Buscar campañas por módulo y fecha de inicio" action="#{testBean.doBuscarPorModuloYFechaInicio()}"/><br/><br/>
             <h:dataTable id="campañaspormodulodatatable" value="#{testBean.campañaspormodulo}" var="campormod">
                 <h:column>
                     <f:facet name="header">ID</f:facet>
@@ -102,25 +102,28 @@
                     <f:facet name="header">Fecha de fin</f:facet>
                     #{testBean.getFecha(campormod.fechaFin)}
                 </h:column>
-            </h:dataTable>
+            </h:dataTable><br/><br/>
             
-            <h3>Operaciones Campaña</h3>
-            ID campaña:<h:inputText value="#{testBean.idcampaña}"/>
-            ID Módulo: <h:inputText value="#{testBean.modulo}"/>
-            Nombre Modulo:<h:inputText value ="#{testBean.nombremoduloparacrearcampaña}"/>
-            Nombre: <h:inputText value="#{testBean.nombreCampaña}"/>
+            <h2>Operaciones Campaña</h2>
+            <b>ID campaña:</b><br/><h:inputText value="#{testBean.idcampaña}"/><br/><br/>
+            <b>ID Módulo:</b><br/> <h:inputText value="#{testBean.modulo}"/><br/><br/>
+            <b>Nombre Modulo:</b><br/><h:inputText value ="#{testBean.nombremoduloparacrearcampaña}"/><br/><br/>
+            <b>Nombre:</b><br/> <h:inputText value="#{testBean.nombreCampaña}"/><br/><br/>
             
-            Fecha Inicio(yyy-MM-dd): <h:inputText value="#{testBean.fechaQuery}">  
-                <f:convertDateTime pattern="yyyy-MM-dd"/>  
-            </h:inputText>
-            Fecha Fin(yyy-MM-dd): <h:inputText value="#{testBean.fechaFin}">  
-                <f:convertDateTime pattern="yyyy-MM-dd"/>  
-            </h:inputText><br/>
-            <h:commandButton value="Crear Campaña" action="#{testBean.doCrearCampaña()}"/>
-            <h:commandButton value="Crear campaña con nombre de modulo" action="#{testBean.doCrearCampañaNombre()}"/>
-            <h:commandButton value="Editar Campaña" action="#{testBean.doEditarCampaña()}"/>
-            <h:commandButton value="Borrar Campaña" action="#{testBean.doBorrarCampaña()}"/>
+            <b>Fecha Inicio:</b><i> (dd-MM-yyyy)</i><br/> <h:inputText value="#{testBean.fechaQuery}">  
+                <f:convertDateTime pattern="dd-MM-yyyy"/>  
+            </h:inputText><br/><br/>
+            <b>Fecha Fin:</b><i> (dd-MM-yyyy)</i><br/> <h:inputText value="#{testBean.fechaFin}">  
+                <f:convertDateTime pattern="dd-MM-yyyy"/>  
+            </h:inputText><br/><br/>
+            <h:commandButton class="boton" value="Crear Campaña" action="#{testBean.doCrearCampaña()}"/>
+            <h:commandButton class="boton" value="Crear campaña con nombre de modulo" action="#{testBean.doCrearCampañaNombre()}"/>
+            <h:commandButton class="boton" value="Editar Campaña" action="#{testBean.doEditarCampaña()}"/>
+            <h:commandButton class="boton" value="Borrar Campaña" action="#{testBean.doBorrarCampaña()}"/>
         </h:form>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </h:body>
 </html>
 
