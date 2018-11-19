@@ -47,7 +47,7 @@ public class ModuloCampaniaBean implements java.io.Serializable {
     @PostConstruct
     public void init() {
         modulo = new Modulo();
-        modulos = getModulosService();
+        modulos = buscarModulos();
         campaniasModulo = new ArrayList<>();
         modulosSeleccionados = new ArrayList<>();
     }
@@ -122,19 +122,19 @@ public class ModuloCampaniaBean implements java.io.Serializable {
         return "index";
     }
 
-    /* -------------------------  Servicios ---------------------------------------------------------------------------------*/
-    private java.util.List<services.Modulo> getModulosService() {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        services.ServiciosIweb port = service.getServiciosIwebPort();
-        return port.getModulos();
-    }
 
     private java.util.List<services.Campaña> buscarCampañasModulo(long id) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         services.ServiciosIweb port = service.getServiciosIwebPort();
         return port.buscarCampañasModulo(id);
+    }
+
+    private java.util.List<services.Modulo> buscarModulos() {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        return port.buscarModulos();
     }
 
 }
