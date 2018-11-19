@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.servlet.http.Part;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -35,6 +36,8 @@ public class InicioBean {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/ServiciosIweb/ServiciosIweb.wsdl")
     private ServiciosIweb_Service service;
     
+    @Inject
+    private ModuloCampaniaBean sessionBean;
     private Part archivo;
     private String error;
     private String mensaje;
@@ -74,6 +77,7 @@ public class InicioBean {
     }
     
     public String entrar(){
+        sessionBean.init();
         return "modulos";
     }
     
@@ -170,40 +174,39 @@ public class InicioBean {
         String moduloNombre=lista.get(0).split(": ")[1];
         String nombreCampaña=lista.get(1).split(": ")[1];
         String fechaMedida=lista.get(2).split(": ")[1];
-        String[] fecha=fechaMedida.split("/");
-        String fechaInicio="01-"+fecha[1]+"-"+fecha[2];
-        String dia="";
-        switch(fecha[1]){
-            case "01":case "03":case "05": case "07":case "08":case "10":case "12":
-                        dia="31";
-                        break;
-            case "04":case "06":case "09":case "11":
-                        dia="30";
-                        break;
-            case "02":
-                        dia="28";
-                        break;
-                       
-        }
-        String fechaFin=dia+"-"+fecha[1]+"-"+fecha[2];
         GregorianCalendar c1=new GregorianCalendar();
         GregorianCalendar c2=new GregorianCalendar();
-        SimpleDateFormat s=new SimpleDateFormat("dd-MM-yyyy");
-        try{
-              Date dateInicio= s.parse(fechaInicio);
-              Date dateFin= s.parse(fechaFin);
-              DatatypeFactory factory=DatatypeFactory.newInstance();
-              c1.setTime(dateInicio);
-              c2.setTime(dateFin);
-              XMLGregorianCalendar inicio=factory.newXMLGregorianCalendar(c1);
-              XMLGregorianCalendar fin=factory.newXMLGregorianCalendar(c2);
-              crearCampañaNombre(moduloNombre, nombreCampaña, inicio, fin);
-              mensaje="Archivo importado correctamente";
-              error=null;
+        SimpleDateFormat s=new SimpleDateFormat("dd/MM/yyyy");
+       
+        XMLGregorianCalendar inicio=null;
+        XMLGregorianCalendar fin=null;
+         try{
+            Date dateInicio= s.parse(fechaMedida);
+            Date dateFin= s.parse(fechaMedida);
+            DatatypeFactory factory=DatatypeFactory.newInstance();
+            c1.setTime(dateInicio);
+            c2.setTime(dateFin);
+            inicio=factory.newXMLGregorianCalendar(c1);
+            fin=factory.newXMLGregorianCalendar(c2);
+            List<services.Campaña> listaC=buscarCampañaNombre(nombreCampaña,moduloNombre);
+            if(listaC.isEmpty()){
+                crearCampañaNombre(moduloNombre, nombreCampaña, inicio, fin);
+            }else{
+                services.Campaña camp=listaC.get(0);
+                if(camp.getFechaInicio().compare(inicio)>0){
+                    editarCampaña(camp.getId(), camp.getModulo().getId(), camp.getNombre(), inicio, camp.getFechaFin());
+                }else if(camp.getFechaFin().compare(fin)<0){
+                    editarCampaña(camp.getId(), camp.getModulo().getId(), camp.getNombre(), camp.getFechaInicio(),fin);
+                }
+            }
+            mensaje="Archivo importado correctamente";
+            error=null; 
         }catch(Exception e){
             error="Error en la importacion del fichero";
             mensaje=null;
         }
+        
+      
     }
 
     private void crearCampañaNombre(java.lang.String nombreModulo, java.lang.String nombre, javax.xml.datatype.XMLGregorianCalendar fechaIni, javax.xml.datatype.XMLGregorianCalendar fechaFin) {
@@ -211,6 +214,22 @@ public class InicioBean {
         // If the calling of port operations may lead to race condition some synchronization is required.
         services.ServiciosIweb port = service.getServiciosIwebPort();
         port.crearCampañaNombre(nombreModulo, nombre, fechaIni, fechaFin);
+    }
+
+   
+
+    private void editarCampaña(long id, long modulo, java.lang.String nombre, javax.xml.datatype.XMLGregorianCalendar fechaIni, javax.xml.datatype.XMLGregorianCalendar fechaFin) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        port.editarCampaña(id, modulo, nombre, fechaIni, fechaFin);
+    }
+
+    private java.util.List<services.Campaña> buscarCampañaNombre(java.lang.String nombre, java.lang.String nombreModulo) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        services.ServiciosIweb port = service.getServiciosIwebPort();
+        return port.buscarCampañaNombre(nombre, nombreModulo);
     }
 
 }

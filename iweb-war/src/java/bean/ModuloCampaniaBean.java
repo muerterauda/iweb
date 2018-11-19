@@ -6,11 +6,14 @@
 package bean;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceRef;
 import services.Campaña;
 import services.Modulo;
@@ -101,6 +104,17 @@ public class ModuloCampaniaBean implements java.io.Serializable {
                 campaniasModulo.add(c);
             }
         }
+    }
+    
+    public String getFecha(XMLGregorianCalendar c){
+        StringBuilder sb=new StringBuilder();
+        String day=c.getDay()+"-";
+        String month=c.getMonth()+"-";
+        String year=c.getYear()+"";
+        sb.append(day);
+        sb.append(month);
+        sb.append(year);
+        return sb.toString();
     }
     
     public String volver(){

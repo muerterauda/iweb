@@ -4,18 +4,6 @@
 <xsd:import namespace="http://services/" schemaLocation="http://localhost:8080/ServiciosIweb/ServiciosIweb?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="getCampañas">
-<part name="parameters" element="tns:getCampañas"/>
-</message>
-<message name="getCampañasResponse">
-<part name="parameters" element="tns:getCampañasResponse"/>
-</message>
-<message name="getModulos">
-<part name="parameters" element="tns:getModulos"/>
-</message>
-<message name="getModulosResponse">
-<part name="parameters" element="tns:getModulosResponse"/>
-</message>
 <message name="buscarCampañasModulo">
 <part name="parameters" element="tns:buscarCampañasModulo"/>
 </message>
@@ -34,14 +22,14 @@
 <message name="buscarCampañasModuloFechaInicioResponse">
 <part name="parameters" element="tns:buscarCampañasModuloFechaInicioResponse"/>
 </message>
-<message name="buscarCampañasModuloFecha">
-<part name="parameters" element="tns:buscarCampañasModuloFecha"/>
-</message>
-<message name="buscarCampañasModuloFechaResponse">
-<part name="parameters" element="tns:buscarCampañasModuloFechaResponse"/>
-</message>
 <message name="crearCampañaNombre">
 <part name="parameters" element="tns:crearCampañaNombre"/>
+</message>
+<message name="buscarCampañaNombre">
+<part name="parameters" element="tns:buscarCampañaNombre"/>
+</message>
+<message name="buscarCampañaNombreResponse">
+<part name="parameters" element="tns:buscarCampañaNombreResponse"/>
 </message>
 <message name="countModulo">
 <part name="parameters" element="tns:countModulo"/>
@@ -79,15 +67,19 @@
 <message name="buscarModulosResponse">
 <part name="parameters" element="tns:buscarModulosResponse"/>
 </message>
+<message name="getModulos">
+<part name="parameters" element="tns:getModulos"/>
+</message>
+<message name="getModulosResponse">
+<part name="parameters" element="tns:getModulosResponse"/>
+</message>
+<message name="getCampañas">
+<part name="parameters" element="tns:getCampañas"/>
+</message>
+<message name="getCampañasResponse">
+<part name="parameters" element="tns:getCampañasResponse"/>
+</message>
 <portType name="ServiciosIweb">
-<operation name="getCampañas">
-<input wsam:Action="http://services/ServiciosIweb/getCampañasRequest" message="tns:getCampañas"/>
-<output wsam:Action="http://services/ServiciosIweb/getCampañasResponse" message="tns:getCampañasResponse"/>
-</operation>
-<operation name="getModulos">
-<input wsam:Action="http://services/ServiciosIweb/getModulosRequest" message="tns:getModulos"/>
-<output wsam:Action="http://services/ServiciosIweb/getModulosResponse" message="tns:getModulosResponse"/>
-</operation>
 <operation name="buscarCampañasModulo">
 <input wsam:Action="http://services/ServiciosIweb/buscarCampañasModuloRequest" message="tns:buscarCampañasModulo"/>
 <output wsam:Action="http://services/ServiciosIweb/buscarCampañasModuloResponse" message="tns:buscarCampañasModuloResponse"/>
@@ -100,12 +92,12 @@
 <input wsam:Action="http://services/ServiciosIweb/buscarCampañasModuloFechaInicioRequest" message="tns:buscarCampañasModuloFechaInicio"/>
 <output wsam:Action="http://services/ServiciosIweb/buscarCampañasModuloFechaInicioResponse" message="tns:buscarCampañasModuloFechaInicioResponse"/>
 </operation>
-<operation name="buscarCampañasModuloFecha">
-<input wsam:Action="http://services/ServiciosIweb/buscarCampañasModuloFechaRequest" message="tns:buscarCampañasModuloFecha"/>
-<output wsam:Action="http://services/ServiciosIweb/buscarCampañasModuloFechaResponse" message="tns:buscarCampañasModuloFechaResponse"/>
-</operation>
 <operation name="crearCampañaNombre">
 <input wsam:Action="http://services/ServiciosIweb/crearCampañaNombre" message="tns:crearCampañaNombre"/>
+</operation>
+<operation name="buscarCampañaNombre">
+<input wsam:Action="http://services/ServiciosIweb/buscarCampañaNombreRequest" message="tns:buscarCampañaNombre"/>
+<output wsam:Action="http://services/ServiciosIweb/buscarCampañaNombreResponse" message="tns:buscarCampañaNombreResponse"/>
 </operation>
 <operation name="countModulo">
 <input wsam:Action="http://services/ServiciosIweb/countModuloRequest" message="tns:countModulo"/>
@@ -137,27 +129,17 @@
 <input wsam:Action="http://services/ServiciosIweb/buscarModulosRequest" message="tns:buscarModulos"/>
 <output wsam:Action="http://services/ServiciosIweb/buscarModulosResponse" message="tns:buscarModulosResponse"/>
 </operation>
+<operation name="getModulos">
+<input wsam:Action="http://services/ServiciosIweb/getModulosRequest" message="tns:getModulos"/>
+<output wsam:Action="http://services/ServiciosIweb/getModulosResponse" message="tns:getModulosResponse"/>
+</operation>
+<operation name="getCampañas">
+<input wsam:Action="http://services/ServiciosIweb/getCampañasRequest" message="tns:getCampañas"/>
+<output wsam:Action="http://services/ServiciosIweb/getCampañasResponse" message="tns:getCampañasResponse"/>
+</operation>
 </portType>
 <binding name="ServiciosIwebPortBinding" type="tns:ServiciosIweb">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="getCampañas">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getModulos">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="buscarCampañasModulo">
 <soap:operation soapAction=""/>
 <input>
@@ -185,7 +167,13 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="buscarCampañasModuloFecha">
+<operation name="crearCampañaNombre">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+</operation>
+<operation name="buscarCampañaNombre">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -193,12 +181,6 @@
 <output>
 <soap:body use="literal"/>
 </output>
-</operation>
-<operation name="crearCampañaNombre">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
 </operation>
 <operation name="countModulo">
 <soap:operation soapAction=""/>
@@ -255,6 +237,24 @@
 </input>
 </operation>
 <operation name="buscarModulos">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getModulos">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getCampañas">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

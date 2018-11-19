@@ -4,15 +4,15 @@
 
 <xs:element name="borrarModulo" type="tns:borrarModulo"/>
 
-<xs:element name="buscarCampañasModulo" type="tns:buscarCampañasModulo"/>
+<xs:element name="buscarCampañaNombre" type="tns:buscarCampañaNombre"/>
 
-<xs:element name="buscarCampañasModuloFecha" type="tns:buscarCampañasModuloFecha"/>
+<xs:element name="buscarCampañaNombreResponse" type="tns:buscarCampañaNombreResponse"/>
+
+<xs:element name="buscarCampañasModulo" type="tns:buscarCampañasModulo"/>
 
 <xs:element name="buscarCampañasModuloFechaInicio" type="tns:buscarCampañasModuloFechaInicio"/>
 
 <xs:element name="buscarCampañasModuloFechaInicioResponse" type="tns:buscarCampañasModuloFechaInicioResponse"/>
-
-<xs:element name="buscarCampañasModuloFechaResponse" type="tns:buscarCampañasModuloFechaResponse"/>
 
 <xs:element name="buscarCampañasModuloResponse" type="tns:buscarCampañasModuloResponse"/>
 
@@ -109,14 +109,14 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="buscarCampañasModuloFecha">
+<xs:complexType name="buscarCampañaNombre">
 <xs:sequence>
-<xs:element name="id" type="xs:long"/>
-<xs:element name="fecha" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="nombre" type="xs:string" minOccurs="0"/>
+<xs:element name="nombreModulo" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="buscarCampañasModuloFechaResponse">
+<xs:complexType name="buscarCampañaNombreResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:campaña" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
@@ -140,16 +140,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getModulos">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="getModulosResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:modulo" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="countModulo">
 <xs:sequence/>
 </xs:complexType>
@@ -157,6 +147,16 @@
 <xs:complexType name="countModuloResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getModulos">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getModulosResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:modulo" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
