@@ -4,15 +4,15 @@
 
 <xs:element name="borrarModulo" type="tns:borrarModulo"/>
 
-<xs:element name="buscarCampañasModulo" type="tns:buscarCampañasModulo"/>
+<xs:element name="buscarCampañaNombre" type="tns:buscarCampañaNombre"/>
 
-<xs:element name="buscarCampañasModuloFecha" type="tns:buscarCampañasModuloFecha"/>
+<xs:element name="buscarCampañaNombreResponse" type="tns:buscarCampañaNombreResponse"/>
+
+<xs:element name="buscarCampañasModulo" type="tns:buscarCampañasModulo"/>
 
 <xs:element name="buscarCampañasModuloFechaInicio" type="tns:buscarCampañasModuloFechaInicio"/>
 
 <xs:element name="buscarCampañasModuloFechaInicioResponse" type="tns:buscarCampañasModuloFechaInicioResponse"/>
-
-<xs:element name="buscarCampañasModuloFechaResponse" type="tns:buscarCampañasModuloFechaResponse"/>
 
 <xs:element name="buscarCampañasModuloResponse" type="tns:buscarCampañasModuloResponse"/>
 
@@ -43,6 +43,10 @@
 <xs:element name="editarCampaña" type="tns:editarCampaña"/>
 
 <xs:element name="editarModulo" type="tns:editarModulo"/>
+
+<xs:element name="getCampañas" type="tns:getCampañas"/>
+
+<xs:element name="getCampañasResponse" type="tns:getCampañasResponse"/>
 
 <xs:element name="modulo" type="tns:modulo"/>
 
@@ -101,14 +105,14 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="buscarCampañasModuloFecha">
+<xs:complexType name="buscarCampañaNombre">
 <xs:sequence>
-<xs:element name="id" type="xs:long"/>
-<xs:element name="fecha" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="nombre" type="xs:string" minOccurs="0"/>
+<xs:element name="nombreModulo" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="buscarCampañasModuloFechaResponse">
+<xs:complexType name="buscarCampañaNombreResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:campaña" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
@@ -158,6 +162,16 @@
 <xs:element name="nombre" type="xs:string" minOccurs="0"/>
 <xs:element name="fechaIni" type="xs:dateTime" minOccurs="0"/>
 <xs:element name="fechaFin" type="xs:dateTime" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCampañas">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getCampañasResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:campaña" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
