@@ -68,7 +68,7 @@
             <h:commandButton value="Crear Modulo" action="#{testBean.doCrearModulo()}"/>
             <h:commandButton value="Editar Modulo" action="#{testBean.doEditarModulo()}"/>
             <h:commandButton value="Borrar Modulo" action="#{testBean.doBorrarModulo()}"/>
-            (Emplea la casilla ID de arriba)<br/>
+            (Emplea el campo ID de arriba)<br/>
             
             <h2>Pruebas Campaña</h2>
             
@@ -119,9 +119,10 @@
                 <f:convertDateTime pattern="yyyy-MM-dd"/>  
             </h:inputText><br/>
             <h:commandButton value="Crear Campaña" action="#{testBean.doCrearCampaña()}"/>
+            <h:commandButton value="Crear campaña con nombre de modulo" action="#{testBean.doCrearCampañaNombre()}"/>
             <h:commandButton value="Editar Campaña" action="#{testBean.doEditarCampaña()}"/>
             <h:commandButton value="Borrar Campaña" action="#{testBean.doBorrarCampaña()}"/>
-            <h:commandButton value="Crear campaña con nombre de modulo" action="#{testBean.doCrearCampañaNombre()}"/>
+            (Usa el campo ID de arriba)
         </h:form>
     </h:body>
 </html>
