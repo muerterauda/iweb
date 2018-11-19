@@ -251,12 +251,7 @@ public class ServiciosIweb {
         }
         this.crearCampaña(buscarModuloNombre(nombreModulo).get(0).getId(), nombre, fechaIni, fechaFin);
     }
-    
-    @WebMethod(operationName ="getModulos")
-    public List<Modulo> getModulos(){
-        return moduloFacade.findAll();
-    }
-    
+   
     
     @WebMethod(operationName ="getCampañas")
     public List<Campaña> getCampañas(){
